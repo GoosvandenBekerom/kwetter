@@ -1,0 +1,25 @@
+group 'com.goosvandenbekerom'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Test
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // Java EE
+    providedCompile 'javax:javaee-api:8.0'
+
+    // JWT tokens
+    compile 'com.auth0:java-jwt:3.3.0'
+    // Password encryption
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+}
