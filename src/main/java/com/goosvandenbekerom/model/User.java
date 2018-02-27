@@ -6,7 +6,9 @@ import com.goosvandenbekerom.config.JwtConfig;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 @Entity
 public class User {
@@ -15,6 +17,14 @@ public class User {
     private String username;
     private String password;
     private String fullName;
+    private Date created;
+
+    private int followerCount;
+
+    @PrePersist
+    protected void onCreate() {
+        created = new Date();
+    }
 
     public User() {}
 
@@ -59,5 +69,21 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
     }
 }
