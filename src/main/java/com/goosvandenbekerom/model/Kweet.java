@@ -1,9 +1,9 @@
 package com.goosvandenbekerom.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Kweet {
@@ -17,10 +17,21 @@ public class Kweet {
     private String message;
     private int likeCount;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Hashtag> hashtags;
+
+    private Date created;
+
+    @PrePersist
+    protected void onCreate() {
+        created = new Date();
+    }
+
     public Kweet() {}
     public Kweet(User owner, String message) {
         this.owner = owner;
         this.message = message;
+        this.hashtags = new ArrayList<>();
     }
 
     public int getId() {
@@ -57,5 +68,28 @@ public class Kweet {
 
     public int addLike() {
         return ++this.likeCount;
+    }
+
+    public List<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    public void setEntities(List<Hashtag> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public void addHashtag(Hashtag hashtag) {
+        if (this.hashtags == null) {
+            this.hashtags = new ArrayList<>();
+        }
+        this.hashtags.add(hashtag);
     }
 }
