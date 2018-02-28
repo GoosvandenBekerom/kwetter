@@ -6,7 +6,7 @@ import java.util.List;
 
 abstract public class Repository<T> {
     @PersistenceContext(unitName = "kwetter")
-    private EntityManager em;
+    EntityManager em;
 
     private Class<T> entityClass;
 

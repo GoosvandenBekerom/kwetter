@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.bean;
 
+import com.goosvandenbekerom.Exception.UsernameExistsException;
 import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
 import com.goosvandenbekerom.model.Credentials;
 import com.goosvandenbekerom.model.Token;
@@ -14,6 +15,11 @@ public class UserRepo extends Repository<User> {
 
     @Override
     public User save(User entity) {
+        User user = em.find(User.class, entity.getUsername());
+        if (user != null) {
+            throw new UsernameExistsException();
+        }
+
         entity.setPassword(BCrypt.hashpw(entity.getPassword(), BCrypt.gensalt()));
         return super.save(entity);
     }
