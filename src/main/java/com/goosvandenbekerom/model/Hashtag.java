@@ -9,14 +9,22 @@ import java.util.List;
 public class Hashtag {
     @Id
     private String value;
-    private int count;
+    private int count = 0;
 
     @ManyToMany(mappedBy = "hashtags")
     private List<Kweet> kweets;
 
+    /**
+     * When instantiating a hashtag from code, always use Hashtagservice.create().
+     * this constructor is only here for JPA
+     */
     public Hashtag() {}
-    public Hashtag(String value) {
-        this.value = value;
+    /**
+     * When instantiating a hashtag from code, always use Hashtagservice.create().
+     * this constructor is only here for JPA
+     */
+    public Hashtag(String tag) {
+        value = tag;
     }
 
     public String getValue() {

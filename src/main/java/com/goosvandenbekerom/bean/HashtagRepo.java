@@ -15,7 +15,7 @@ public class HashtagRepo extends Repository<Hashtag> {
 
     @Override
     public Hashtag save(Hashtag tag) {
-        tag = hashtagService.createHashtag(tag.getValue());
+        tag = hashtagService.create(tag.getValue());
         return super.save(tag);
     }
 }

@@ -19,6 +19,8 @@ public class Kweet {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Hashtag> hashtags;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Mention> mentions;
 
     private Date created;
 
@@ -32,6 +34,7 @@ public class Kweet {
         this.owner = owner;
         this.message = message;
         this.hashtags = new ArrayList<>();
+        this.mentions = new ArrayList<>();
     }
 
     public int getId() {
@@ -74,8 +77,16 @@ public class Kweet {
         return hashtags;
     }
 
-    public void setEntities(List<Hashtag> hashtags) {
+    public void setHashtags(List<Hashtag> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public List<Mention> getMentions() {
+        return mentions;
+    }
+
+    public void setMentions(List<Mention> mentions) {
+        this.mentions = mentions;
     }
 
     public Date getCreated() {
@@ -87,9 +98,16 @@ public class Kweet {
     }
 
     public void addHashtag(Hashtag hashtag) {
-        if (this.hashtags == null) {
-            this.hashtags = new ArrayList<>();
+        if (hashtags == null) {
+            hashtags = new ArrayList<>();
         }
-        this.hashtags.add(hashtag);
+        hashtags.add(hashtag);
+    }
+
+    public void addMention(Mention mention) {
+        if (mentions == null) {
+            mentions = new ArrayList<>();
+        }
+        mentions.add(mention);
     }
 }
