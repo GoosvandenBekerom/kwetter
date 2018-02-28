@@ -35,7 +35,7 @@ public class KweetRepo extends Repository<Kweet> {
         Pattern pattern = Pattern.compile(RegexHelpers.HASHTAG);
         Matcher matcher = pattern.matcher(kweet.getMessage());
         while(matcher.find()) {
-            kweet.addHashtag(hashtagService.createHashtag(matcher.group()));
+            kweet.addHashtag(hashtagService.create(matcher.group()));
         }
     }
 }

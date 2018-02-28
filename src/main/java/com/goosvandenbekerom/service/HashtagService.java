@@ -11,7 +11,7 @@ public class HashtagService {
     @PersistenceContext(unitName = "kwetter")
     private EntityManager em;
 
-    public Hashtag createHashtag(String tag) {
+    public Hashtag create(String tag) {
         Hashtag hashtag = em.find(Hashtag.class, tag);
         hashtag = hashtag != null ? hashtag : new Hashtag(tag);
         hashtag.increaseCount();
