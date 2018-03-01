@@ -40,7 +40,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
      */
     private void processHashtags(Kweet kweet) {
         for(String tag : processRegex(kweet.getMessage(), RegexHelpers.HASHTAG)) {
-            kweet.addHashtag(hashtagService.create(tag));
+            kweet.getHashtags().add(hashtagService.create(tag));
         }
     }
     /**
@@ -51,7 +51,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
         for(String mention : processRegex(kweet.getMessage(), RegexHelpers.MENTION)) {
             User user = userRepo.getById(mention);
             if (user == null) continue;
-            kweet.addMention(new Mention(user));
+            kweet.getMentions().add(new Mention(user));
         }
     }
 
