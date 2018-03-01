@@ -2,6 +2,7 @@
 .gradle
 gradle
 *.iml
+!/gradle/wrapper/gradle-wrapper.jar
 
 # IDE specific files
 .idea
