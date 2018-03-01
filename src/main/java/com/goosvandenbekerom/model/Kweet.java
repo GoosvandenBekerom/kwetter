@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Kweet {
@@ -11,7 +12,7 @@ public class Kweet {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
 
     private String message;
@@ -74,6 +75,9 @@ public class Kweet {
     }
 
     public List<Hashtag> getHashtags() {
+        if (hashtags == null) {
+            hashtags = new ArrayList<>();
+        }
         return hashtags;
     }
 
@@ -82,6 +86,9 @@ public class Kweet {
     }
 
     public List<Mention> getMentions() {
+        if (mentions == null) {
+            mentions = new ArrayList<>();
+        }
         return mentions;
     }
 
@@ -97,17 +104,14 @@ public class Kweet {
         this.created = created;
     }
 
-    public void addHashtag(Hashtag hashtag) {
-        if (hashtags == null) {
-            hashtags = new ArrayList<>();
-        }
-        hashtags.add(hashtag);
+    @Override
+    public boolean equals(Object o) {
+        return this == o || o instanceof Kweet
+                && hashCode() == o.hashCode();
     }
 
-    public void addMention(Mention mention) {
-        if (mentions == null) {
-            mentions = new ArrayList<>();
-        }
-        mentions.add(mention);
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getOwner(), getMessage(), getLikeCount(), getHashtags(), getMentions(), getCreated());
     }
 }

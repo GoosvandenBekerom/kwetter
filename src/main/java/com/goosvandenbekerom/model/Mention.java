@@ -1,6 +1,7 @@
 package com.goosvandenbekerom.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Mention {
@@ -30,5 +31,16 @@ public class Mention {
 
     public void setUser(User mentionedUser) {
         this.user = mentionedUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || o instanceof Mention
+                && hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUser());
     }
 }

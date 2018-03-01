@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Hashtag {
@@ -45,5 +46,16 @@ public class Hashtag {
 
     public void increaseCount() {
         count++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || o instanceof Hashtag
+                && hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getValue(), getCount(), kweets);
     }
 }

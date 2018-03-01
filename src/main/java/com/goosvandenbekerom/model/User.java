@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -90,5 +91,16 @@ public class User {
 
     public void setFollowing(List<User> following) {
         this.following = following;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || o instanceof User
+                && hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getFullName(), getFollowing(), getCreated());
     }
 }
