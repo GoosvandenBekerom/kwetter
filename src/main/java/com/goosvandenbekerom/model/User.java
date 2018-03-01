@@ -95,8 +95,14 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || o instanceof User
-                && hashCode() == o.hashCode();
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getUsername(), user.getUsername()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getFullName(), user.getFullName()) &&
+                Objects.equals(getFollowing(), user.getFollowing()) &&
+                Objects.equals(getCreated(), user.getCreated());
     }
 
     @Override

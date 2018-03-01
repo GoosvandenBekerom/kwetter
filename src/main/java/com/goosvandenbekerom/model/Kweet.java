@@ -106,8 +106,16 @@ public class Kweet {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || o instanceof Kweet
-                && hashCode() == o.hashCode();
+        if (this == o) return true;
+        if (!(o instanceof Kweet)) return false;
+        Kweet kweet = (Kweet) o;
+        return getId() == kweet.getId() &&
+                getLikeCount() == kweet.getLikeCount() &&
+                Objects.equals(getOwner(), kweet.getOwner()) &&
+                Objects.equals(getMessage(), kweet.getMessage()) &&
+                Objects.equals(getHashtags(), kweet.getHashtags()) &&
+                Objects.equals(getMentions(), kweet.getMentions()) &&
+                Objects.equals(getCreated(), kweet.getCreated());
     }
 
     @Override

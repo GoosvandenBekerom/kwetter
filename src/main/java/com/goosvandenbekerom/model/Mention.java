@@ -35,8 +35,11 @@ public class Mention {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || o instanceof Mention
-                && hashCode() == o.hashCode();
+        if (this == o) return true;
+        if (!(o instanceof Mention)) return false;
+        Mention mention = (Mention) o;
+        return getId() == mention.getId() &&
+                Objects.equals(getUser(), mention.getUser());
     }
 
     @Override

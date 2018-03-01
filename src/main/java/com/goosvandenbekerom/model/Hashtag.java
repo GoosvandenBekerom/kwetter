@@ -50,8 +50,12 @@ public class Hashtag {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || o instanceof Hashtag
-                && hashCode() == o.hashCode();
+        if (this == o) return true;
+        if (!(o instanceof Hashtag)) return false;
+        Hashtag hashtag = (Hashtag) o;
+        return getCount() == hashtag.getCount() &&
+                Objects.equals(getValue(), hashtag.getValue()) &&
+                Objects.equals(kweets, hashtag.kweets);
     }
 
     @Override
