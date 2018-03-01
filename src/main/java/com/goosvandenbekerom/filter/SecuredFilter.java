@@ -10,7 +10,6 @@ import com.goosvandenbekerom.config.JwtConfig;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.ext.Provider;
 
 @Secured
@@ -36,7 +35,7 @@ public class SecuredFilter implements ContainerRequestFilter {
                     .build();
 
             DecodedJWT jwt = verifier.verify(token);
-            requestContext.setProperty("user", jwt.getPayload());
+            requestContext.setProperty("user", jwt.getClaim("user").asString());
 
             return true;
         } catch (Exception e) {

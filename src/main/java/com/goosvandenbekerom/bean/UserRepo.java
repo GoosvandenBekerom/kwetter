@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.bean;
 
+import com.goosvandenbekerom.Exception.UserAlreadyFollowedException;
 import com.goosvandenbekerom.Exception.UsernameExistsException;
 import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
 import com.goosvandenbekerom.model.Credentials;
@@ -32,5 +33,17 @@ public class UserRepo extends Repository<User> {
         }
 
         return user.generateToken();
+    }
+
+    public boolean followUser(String follower, User toFollow) {
+        User user = em.find(User.class, follower);
+        User userToFollow = em.find(User.class, toFollow.getUsername());
+        if (user == null || userToFollow == null) {
+            return false;
+        }
+        if (user.getFollowing().contains(userToFollow)) {
+            throw new UserAlreadyFollowedException();
+        }
+        return user.getFollowing().add(userToFollow);
     }
 }

@@ -4,11 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.goosvandenbekerom.config.JwtConfig;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class User {
@@ -17,10 +17,11 @@ public class User {
     private String username;
     private String password;
     private String fullName;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<User> following;
+
     private Date created;
-
-    private int followerCount;
-
     @PrePersist
     protected void onCreate() {
         created = new Date();
@@ -32,6 +33,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
+        following = new ArrayList<>();
     }
 
     public Token generateToken() {
@@ -79,11 +81,14 @@ public class User {
         this.created = created;
     }
 
-    public int getFollowerCount() {
-        return followerCount;
+    public List<User> getFollowing() {
+        if (following == null){
+            following = new ArrayList<>();
+        }
+        return following;
     }
 
-    public void setFollowerCount(int followerCount) {
-        this.followerCount = followerCount;
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 }
