@@ -1,47 +1,59 @@
 package com.goosvandenbekerom.Resource;
 
-import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
-import com.goosvandenbekerom.model.Credentials;
+import com.goosvandenbekerom.model.StringResponse;
 import com.goosvandenbekerom.model.Token;
 import com.goosvandenbekerom.model.User;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 
 @Path("user")
-@Produces(APPLICATION_JSON)
-public class UserResource extends Resource<User> {
-
-    private final UserRepo repo;
+public class UserResource extends JsonResource{
+    private UserRepo repo;
 
     @Inject
-    public UserResource(UserRepo repo) {
-        super();
-        this.repo = repo;
-        super.setRepository(this.repo);
+    public UserResource(UserRepo repo) { this.repo = repo; }
+
+    @GET
+    public List<User> getAll() {
+        return repo.getAll();
+    }
+
+    @GET
+    @Path("{id}")
+    public User find(@PathParam("id") String id) {
+        return repo.getById(id);
+    }
+
+    @POST
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    public User save(
+            @FormParam("username") String username,
+            @FormParam("password") String password,
+            @FormParam("fullName") String fullName)
+    {
+        return repo.save(new User(username, password, fullName));
     }
 
     @POST
     @Path("login")
-    @Consumes(APPLICATION_JSON)
-    public Token login(Credentials credentials) throws WrongUsernameOrPasswordException {
-        return repo.login(credentials);
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    public Token login(@FormParam("username") String username, @FormParam("password") String password) {
+        return repo.login(username, password);
     }
 
     @POST
-    @Path("follow")
-    @Consumes(APPLICATION_JSON)
+    @Path("{username}/follow")
     @Secured
-    public boolean followUser(@Context ContainerRequestContext context, User user) {
-        return repo.followUser(context.getProperty("user").toString(), user);
+    public StringResponse followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
+        repo.followUser(context.getProperty("user").toString(), username);
+        return new StringResponse("Successfully followed user @" + username);
     }
 }

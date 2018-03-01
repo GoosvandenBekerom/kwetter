@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 @Stateless
-public class HashtagRepo extends Repository<Hashtag> {
+public class HashtagRepo extends Repository<Hashtag, String> {
     @Inject
     private HashtagService hashtagService;
 

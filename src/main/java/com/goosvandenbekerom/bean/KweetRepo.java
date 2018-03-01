@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Stateless
-public class KweetRepo extends Repository<Kweet> {
+public class KweetRepo extends Repository<Kweet, Long> {
     @Inject
     private HashtagService hashtagService;
     @Inject

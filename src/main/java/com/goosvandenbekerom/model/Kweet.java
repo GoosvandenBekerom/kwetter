@@ -9,7 +9,7 @@ import java.util.List;
 public class Kweet {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
     @ManyToOne
     private User owner;
@@ -37,11 +37,11 @@ public class Kweet {
         this.mentions = new ArrayList<>();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
