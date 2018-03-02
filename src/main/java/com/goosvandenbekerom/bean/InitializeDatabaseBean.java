@@ -15,7 +15,10 @@ public class InitializeDatabaseBean {
 
     @PostConstruct
     void init() {
-        userRepo.save(new User("goos", "test", "Goos van den Bekerom"));
-        userRepo.save(new User("jan", "test", "Jan de Testman"));
+        User goos = new User("goos", "test", "Goos van den Bekerom");
+        User jan = new User("jan", "test", "Jan de Testman");
+        userRepo.save(goos);
+        userRepo.save(jan);
+        userRepo.followUser(goos.getUsername(), jan.getUsername());
     }
 }
