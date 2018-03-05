@@ -56,4 +56,10 @@ public class UserResource extends JsonResource{
         repo.followUser(context.getProperty("user").toString(), username);
         return new StringResponse("Successfully followed user @" + username);
     }
+
+    @GET
+    @Path("{username}/following")
+    public List<User> getFollowing(@PathParam("username") String username) {
+        return repo.getFollowing(username);
+    }
 }
