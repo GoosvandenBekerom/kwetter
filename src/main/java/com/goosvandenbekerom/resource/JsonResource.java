@@ -1,4 +1,4 @@
-package com.goosvandenbekerom.Resource;
+package com.goosvandenbekerom.resource;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

@@ -1,4 +1,4 @@
-package com.goosvandenbekerom.Resource;
+package com.goosvandenbekerom.resource;
 
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.KweetRepo;
