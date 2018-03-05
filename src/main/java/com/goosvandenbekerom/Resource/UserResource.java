@@ -1,4 +1,4 @@
-package com.goosvandenbekerom.resource;
+package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;

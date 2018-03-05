@@ -1,4 +1,4 @@
-package com.goosvandenbekerom.resource;
+package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.bean.MentionRepo;
 import com.goosvandenbekerom.model.Mention;
