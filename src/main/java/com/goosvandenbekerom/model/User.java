@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.goosvandenbekerom.config.JwtConfig;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ public class User {
 
     @Id
     private String username;
+    @JsonbTransient
     private String password;
     private String fullName;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonbTransient
     private List<User> following;
 
     private Date created;
