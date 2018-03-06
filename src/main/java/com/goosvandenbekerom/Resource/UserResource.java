@@ -4,6 +4,7 @@ import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
 import com.goosvandenbekerom.model.Token;
 import com.goosvandenbekerom.model.User;
+import io.swagger.v3.oas.annotations.Operation;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -23,6 +24,7 @@ public class UserResource extends JsonResource{
     public UserResource(UserRepo repo) { this.repo = repo; }
 
     @GET
+    @Operation(summary = "Get users", description = "Get list of users")
     public List<User> getAll() {
         return repo.getAll();
     }

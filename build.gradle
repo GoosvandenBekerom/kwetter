@@ -22,4 +22,7 @@ dependencies {
     compile 'com.auth0:java-jwt:3.3.0'
     // Password encryption
     compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+    // Swagger
+    compile group: 'io.swagger.core.v3', name: 'swagger-jaxrs2', version: '2.0.0-rc4'
+
 }
