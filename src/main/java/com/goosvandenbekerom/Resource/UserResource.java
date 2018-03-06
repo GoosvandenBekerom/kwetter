@@ -62,4 +62,10 @@ public class UserResource extends JsonResource{
     public List<User> getFollowing(@PathParam("username") String username) {
         return repo.getFollowing(username);
     }
+
+    @GET
+    @Path("{username}/followers")
+    public List<User> getFollowers(@PathParam("username") String username) {
+        return repo.getFollowers(username);
+    }
 }

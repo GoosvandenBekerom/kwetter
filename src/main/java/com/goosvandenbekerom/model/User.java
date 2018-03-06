@@ -26,6 +26,7 @@ public class User {
     private List<User> following;
 
     @ManyToMany(mappedBy = "following",fetch = FetchType.LAZY)
+    @JsonbTransient
     private List<User> followers;
 
     private Date created;
@@ -41,6 +42,7 @@ public class User {
         this.password = password;
         this.fullName = fullName;
         following = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
     public Token generateToken() {
@@ -97,6 +99,17 @@ public class User {
 
     public void setFollowing(List<User> following) {
         this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        if (followers == null) {
+            followers = new ArrayList<>();
+        }
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 
     @Override

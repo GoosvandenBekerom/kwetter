@@ -9,6 +9,7 @@ import com.goosvandenbekerom.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.Stateless;
+import javax.ws.rs.BadRequestException;
 import java.util.List;
 
 @Stateless
@@ -36,7 +37,7 @@ public class UserRepo extends Repository<User, String> {
         return user.generateToken();
     }
 
-    public boolean followUser(String follower, String username) {
+    public void followUser(String follower, String username) {
         User user = getById(follower);
         User userToFollow = em.find(User.class, username);
         if (user == null || userToFollow == null) {
@@ -45,7 +46,11 @@ public class UserRepo extends Repository<User, String> {
         if (user.getFollowing().contains(userToFollow)) {
             throw new UserAlreadyFollowedException();
         }
-        return user.getFollowing().add(userToFollow);
+        if (user.equals(userToFollow)) {
+            throw new BadRequestException("You can't follow yourself.");
+        }
+        user.getFollowing().add(userToFollow);
+        userToFollow.getFollowers().add(user);
     }
 
     public List<User> getFollowing(String username) {
@@ -54,5 +59,13 @@ public class UserRepo extends Repository<User, String> {
             throw new UnknownUserException();
         }
         return user.getFollowing();
+    }
+
+    public List<User> getFollowers(String username) {
+        User user = getById(username);
+        if (user == null) {
+            throw new UnknownUserException();
+        }
+        return user.getFollowers();
     }
 }
