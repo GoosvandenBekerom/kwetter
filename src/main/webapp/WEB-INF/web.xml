@@ -14,10 +14,6 @@
           <param-name>openApi.configuration.resourcePackages</param-name>
           <param-value>com.goosvandenbekerom.Resource</param-value>
         </init-param>
-        <init-param>
-            <param-name>openApi.configuration.basePath</param-name>
-            <param-value>/kwetter-java-1.0-SNAPSHOT/api</param-value>
-        </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
