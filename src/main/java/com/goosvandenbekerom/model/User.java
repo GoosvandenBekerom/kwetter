@@ -19,14 +19,15 @@ public class User {
     private String password;
     private String fullName;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<User> following;
+
+    @ManyToMany(mappedBy = "following",fetch = FetchType.LAZY)
+    private List<User> followers;
 
     private Date created;
     @PrePersist
-    protected void onCreate() {
-        created = new Date();
-    }
+    protected void onCreate() { created = new Date(); }
 
     public User() {}
 
@@ -91,6 +92,17 @@ public class User {
 
     public void setFollowing(List<User> following) {
         this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        if (followers == null){
+            followers = new ArrayList<>();
+        }
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 
     @Override
