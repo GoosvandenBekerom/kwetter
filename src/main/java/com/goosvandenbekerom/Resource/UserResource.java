@@ -2,11 +2,12 @@ package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
-import com.goosvandenbekerom.model.StringResponse;
 import com.goosvandenbekerom.model.Token;
 import com.goosvandenbekerom.model.User;
 
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
@@ -52,9 +53,11 @@ public class UserResource extends JsonResource{
     @POST
     @Path("{username}/follow")
     @Secured
-    public StringResponse followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
+    public JsonObject followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
         repo.followUser(context.getProperty("user").toString(), username);
-        return new StringResponse("Successfully followed user @" + username);
+        return Json.createObjectBuilder()
+                .add("message", "Successfully followed user @" + username)
+                .build();
     }
 
     @GET
