@@ -11,6 +11,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
@@ -47,19 +48,19 @@ public class UserResource extends JsonResource{
     @POST
     @Path("login")
     @Consumes(APPLICATION_FORM_URLENCODED)
-    public JsonObject login(@FormParam("username") String username, @FormParam("password") String password) {
+    public Response login(@FormParam("username") String username, @FormParam("password") String password) {
         String token = repo.login(username, password);
-        return Json.createObjectBuilder().add("token", token).build();
+        JsonObject json = Json.createObjectBuilder().add("token", token).build();
+        return Response.ok(json).build();
     }
 
     @POST
     @Path("{username}/follow")
     @Secured
-    public JsonObject followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
+    public Response followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
         repo.followUser(context.getProperty("user").toString(), username);
-        return Json.createObjectBuilder()
-                .add("message", "Successfully followed user @" + username)
-                .build();
+        JsonObject json = Json.createObjectBuilder().add("message", "Successfully followed user @" + username).build();
+        return Response.ok(json).build();
     }
 
     @GET
