@@ -2,7 +2,6 @@ package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
-import com.goosvandenbekerom.model.Token;
 import com.goosvandenbekerom.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -48,8 +47,9 @@ public class UserResource extends JsonResource{
     @POST
     @Path("login")
     @Consumes(APPLICATION_FORM_URLENCODED)
-    public Token login(@FormParam("username") String username, @FormParam("password") String password) {
-        return repo.login(username, password);
+    public JsonObject login(@FormParam("username") String username, @FormParam("password") String password) {
+        String token = repo.login(username, password);
+        return Json.createObjectBuilder().add("token", token).build();
     }
 
     @POST

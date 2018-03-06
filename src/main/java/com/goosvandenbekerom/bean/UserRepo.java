@@ -4,7 +4,6 @@ import com.goosvandenbekerom.Exception.UnknownUserException;
 import com.goosvandenbekerom.Exception.UserAlreadyFollowedException;
 import com.goosvandenbekerom.Exception.UsernameExistsException;
 import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
-import com.goosvandenbekerom.model.Token;
 import com.goosvandenbekerom.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -27,7 +26,7 @@ public class UserRepo extends Repository<User, String> {
         return super.save(entity);
     }
 
-    public Token login(String username, String password) {
+    public String login(String username, String password) {
         User user = getById(username);
 
         if (!BCrypt.checkpw(password, user.getPassword())) {

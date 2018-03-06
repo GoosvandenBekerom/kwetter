@@ -45,13 +45,13 @@ public class User {
         followers = new ArrayList<>();
     }
 
-    public Token generateToken() {
+    public String generateToken() {
         try {
             Algorithm algorithm = Algorithm.HMAC256(JwtConfig.SECRET);
-            return new Token(JWT.create()
+            return JWT.create()
                     .withClaim("user", username)
                     .withIssuer("auth0")
-                    .sign(algorithm));
+                    .sign(algorithm);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
