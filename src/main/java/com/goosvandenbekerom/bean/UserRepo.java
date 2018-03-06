@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.bean;
 
+import com.goosvandenbekerom.Exception.UnknownUserException;
 import com.goosvandenbekerom.Exception.UserAlreadyFollowedException;
 import com.goosvandenbekerom.Exception.UsernameExistsException;
 import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
@@ -8,6 +9,7 @@ import com.goosvandenbekerom.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.Stateless;
+import java.util.List;
 
 @Stateless
 public class UserRepo extends Repository<User, String> {
@@ -35,14 +37,22 @@ public class UserRepo extends Repository<User, String> {
     }
 
     public boolean followUser(String follower, String username) {
-        User user = em.find(User.class, follower);
+        User user = getById(follower);
         User userToFollow = em.find(User.class, username);
         if (user == null || userToFollow == null) {
-            return false;
+            throw new UnknownUserException();
         }
         if (user.getFollowing().contains(userToFollow)) {
             throw new UserAlreadyFollowedException();
         }
         return user.getFollowing().add(userToFollow);
+    }
+
+    public List<User> getFollowing(String username) {
+        User user = getById(username);
+        if (user == null) {
+            throw new UnknownUserException();
+        }
+        return user.getFollowing();
     }
 }

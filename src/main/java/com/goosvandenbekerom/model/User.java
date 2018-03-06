@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.goosvandenbekerom.config.JwtConfig;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -16,10 +17,12 @@ public class User {
 
     @Id
     private String username;
+    @JsonbTransient
     private String password;
     private String fullName;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonbTransient
     private List<User> following;
 
     @ManyToMany(mappedBy = "following",fetch = FetchType.LAZY)
@@ -27,7 +30,9 @@ public class User {
 
     private Date created;
     @PrePersist
-    protected void onCreate() { created = new Date(); }
+    protected void onCreate() {
+        created = new Date();
+    }
 
     public User() {}
 
@@ -92,17 +97,6 @@ public class User {
 
     public void setFollowing(List<User> following) {
         this.following = following;
-    }
-
-    public List<User> getFollowers() {
-        if (followers == null){
-            followers = new ArrayList<>();
-        }
-        return followers;
-    }
-
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
     }
 
     @Override
