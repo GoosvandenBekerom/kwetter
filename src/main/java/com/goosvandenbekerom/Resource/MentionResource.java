@@ -2,6 +2,7 @@ package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.bean.MentionRepo;
 import com.goosvandenbekerom.model.Mention;
+import io.swagger.v3.oas.annotations.Operation;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -17,12 +18,14 @@ public class MentionResource extends JsonResource {
     public MentionResource(MentionRepo repo) { this.repo = repo; }
 
     @GET
+    @Operation(summary = "Get all mentions")
     public List<Mention> getAll() {
         return repo.getAll();
     }
 
     @GET
     @Path("{id}")
+    @Operation(summary = "Get a mention by its id")
     public Mention find(@PathParam("id") long id) {
         return repo.getById(id);
     }

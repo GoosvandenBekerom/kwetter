@@ -4,6 +4,8 @@ import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
 import com.goosvandenbekerom.model.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import javax.inject.Inject;
 import javax.json.Json;
@@ -24,19 +26,21 @@ public class UserResource extends JsonResource{
     public UserResource(UserRepo repo) { this.repo = repo; }
 
     @GET
-    @Operation(summary = "Get users", description = "Get list of users")
+    @Operation(summary = "Get all users")
     public List<User> getAll() {
         return repo.getAll();
     }
 
     @GET
-    @Path("{id}")
-    public User find(@PathParam("id") String id) {
-        return repo.getById(id);
+    @Path("{username}")
+    @Operation(summary = "Get user by username")
+    public User find(@PathParam("username") String username) {
+        return repo.getById(username);
     }
 
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
+    @Operation(summary = "Register a new user")
     public User save(
             @FormParam("username") String username,
             @FormParam("password") String password,
@@ -48,6 +52,7 @@ public class UserResource extends JsonResource{
     @POST
     @Path("login")
     @Consumes(APPLICATION_FORM_URLENCODED)
+    @Operation(summary = "Login user", responses = @ApiResponse(description = "Authorisation token"))
     public Response login(@FormParam("username") String username, @FormParam("password") String password) {
         String token = repo.login(username, password);
         JsonObject json = Json.createObjectBuilder().add("token", token).build();
@@ -57,6 +62,7 @@ public class UserResource extends JsonResource{
     @POST
     @Path("{username}/follow")
     @Secured
+    @Operation(summary = "Follow user", security = @SecurityRequirement(name = "Bearer token"))
     public Response followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
         repo.followUser(context.getProperty("user").toString(), username);
         JsonObject json = Json.createObjectBuilder().add("message", "Successfully followed user @" + username).build();
@@ -65,12 +71,14 @@ public class UserResource extends JsonResource{
 
     @GET
     @Path("{username}/following")
+    @Operation(summary = "Get all users that this user follows")
     public List<User> getFollowing(@PathParam("username") String username) {
         return repo.getFollowing(username);
     }
 
     @GET
     @Path("{username}/followers")
+    @Operation(summary = "Get all followers for this user")
     public List<User> getFollowers(@PathParam("username") String username) {
         return repo.getFollowers(username);
     }
