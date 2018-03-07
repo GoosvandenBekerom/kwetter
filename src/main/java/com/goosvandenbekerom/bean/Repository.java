@@ -28,4 +28,10 @@ abstract public class Repository<TEntity, TIdType> {
         return em.createQuery("SELECT x FROM "+entityClass.getName()+" x", entityClass)
                 .setMaxResults(limit).getResultList();
     }
+
+    public void deleteById(TIdType id) {
+        TEntity entity = em.find(entityClass, id);
+        if (entity == null) return;
+        em.remove(entity);
+    }
 }
