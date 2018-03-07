@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,10 @@ public class Kweet {
     @OneToMany(mappedBy = "kweet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mention> mentions;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonbTransient
+    private List<User> likes;
+
     private Date created;
 
     @PrePersist
@@ -36,6 +41,7 @@ public class Kweet {
         this.message = message;
         this.hashtags = new ArrayList<>();
         this.mentions = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
     public long getId() {
@@ -70,8 +76,24 @@ public class Kweet {
         this.likeCount = likeCount;
     }
 
-    public int addLike() {
-        return ++this.likeCount;
+    public int addLike(User user) {
+        if (likedBy(user)) {
+            return likeCount;
+        }
+        likes.add(user);
+        return ++likeCount;
+    }
+
+    public int removeLike(User user) {
+        if (!likedBy(user)) {
+            return likeCount;
+        }
+        likes.remove(user);
+        return --likeCount;
+    }
+
+    public boolean likedBy(User user) {
+        return getLikes().contains(user);
     }
 
     public List<Hashtag> getHashtags() {
@@ -94,6 +116,17 @@ public class Kweet {
 
     public void setMentions(List<Mention> mentions) {
         this.mentions = mentions;
+    }
+
+    public List<User> getLikes() {
+        if (likes == null) {
+            likes = new ArrayList<>();
+        }
+        return likes;
+    }
+
+    public void setLikes(List<User> likes) {
+        this.likes = likes;
     }
 
     public Date getCreated() {

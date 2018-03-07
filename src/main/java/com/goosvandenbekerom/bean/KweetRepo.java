@@ -8,7 +8,9 @@ import com.goosvandenbekerom.util.RegexHelpers;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.ForbiddenException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,12 +30,29 @@ public class KweetRepo extends Repository<Kweet, Long> {
         return super.save(kweet);
     }
 
+    public void toggleLike(long kweetId, String username) {
+        Kweet kweet = getById(kweetId);
+        User user = userRepo.getById(username);
+
+        if (kweet == null) throw notFound(kweetId);
+        if (user == null) throw userRepo.notFound(username);
+
+        if (kweet.getOwner().equals(user)) throw new ForbiddenException("You can't like your own kweet");
+
+        if (kweet.likedBy(user)) kweet.removeLike(user);
+        else kweet.addLike(user);
+    }
+
+    public List<User> getLikesById(long id) {
+        Kweet kweet = getById(id);
+        if (kweet == null) throw notFound(id);
+        return getById(id).getLikes();
+    }
+
     private void processKweet(Kweet kweet) {
         this.processHashtags(kweet);
         this.processMentions(kweet);
-        // todo: process urls?
     }
-
     /**
      * Finds all hashtags and adds them to kweet
      * @param kweet to process hashtags from
@@ -54,7 +73,6 @@ public class KweetRepo extends Repository<Kweet, Long> {
             kweet.getMentions().add(new Mention(user, kweet));
         }
     }
-
     /**
      * Find all unique occurrences in a string
      * @param value string to search in
