@@ -51,7 +51,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
         for(String mention : processRegex(kweet.getMessage(), RegexHelpers.MENTION)) {
             User user = userRepo.getById(mention);
             if (user == null) continue;
-            kweet.getMentions().add(new Mention(user));
+            kweet.getMentions().add(new Mention(user, kweet));
         }
     }
 

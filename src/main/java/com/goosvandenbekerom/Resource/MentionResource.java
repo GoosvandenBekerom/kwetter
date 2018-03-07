@@ -1,6 +1,7 @@
 package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.bean.MentionRepo;
+import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.Mention;
 import io.swagger.v3.oas.annotations.Operation;
 
@@ -28,5 +29,12 @@ public class MentionResource extends JsonResource {
     @Operation(summary = "Get a mention by its id")
     public Mention find(@PathParam("id") long id) {
         return repo.getById(id);
+    }
+
+    @GET
+    @Path("{id}/kweet")
+    @Operation(summary = "Get the kweet associated with this mention")
+    public Kweet getKweet(@PathParam("id") long id) {
+        return repo.getKweetFromMention(id);
     }
 }

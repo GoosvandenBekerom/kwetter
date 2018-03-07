@@ -20,7 +20,7 @@ public class Kweet {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Hashtag> hashtags;
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "kweet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mention> mentions;
 
     private Date created;

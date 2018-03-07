@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,9 +13,14 @@ public class Mention {
     @ManyToOne
     private User user;
 
+    @ManyToOne
+    @JsonbTransient
+    private Kweet kweet;
+
     public Mention() {}
-    public Mention(User user) {
+    public Mention(User user, Kweet kweet) {
         this.user = user;
+        this.kweet = kweet;
     }
 
     public long getId() {
@@ -31,6 +37,14 @@ public class Mention {
 
     public void setUser(User mentionedUser) {
         this.user = mentionedUser;
+    }
+
+    public Kweet getKweet() {
+        return kweet;
+    }
+
+    public void setKweet(Kweet kweet) {
+        this.kweet = kweet;
     }
 
     @Override
