@@ -1,12 +1,7 @@
 package com.goosvandenbekerom.model;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.goosvandenbekerom.config.JwtConfig;
-
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +25,14 @@ public class User extends HateoasModel {
     private List<User> followers;
 
     private Date created;
+    private Date updated;
     @PrePersist
     protected void onCreate() {
-        created = new Date();
+        created = updated = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
     }
 
     public User() {}
@@ -69,14 +69,6 @@ public class User extends HateoasModel {
         this.fullName = fullName;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public List<User> getFollowing() {
         if (following == null){
             following = new ArrayList<>();
@@ -97,6 +89,22 @@ public class User extends HateoasModel {
 
     public void setFollowers(List<User> followers) {
         this.followers = followers;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     @Override

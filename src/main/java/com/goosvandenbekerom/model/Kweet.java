@@ -29,10 +29,15 @@ public class Kweet extends HateoasModel {
     private List<User> likes;
 
     private Date created;
+    private Date updated;
 
     @PrePersist
     protected void onCreate() {
-        created = new Date();
+        created = updated = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
     }
 
     public Kweet() {}
