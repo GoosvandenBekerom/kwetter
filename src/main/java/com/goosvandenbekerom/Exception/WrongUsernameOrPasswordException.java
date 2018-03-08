@@ -1,7 +1,7 @@
 package com.goosvandenbekerom.Exception;
 
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.ForbiddenException;
 
-public class WrongUsernameOrPasswordException extends WebApplicationException {
-    public WrongUsernameOrPasswordException() { super("The username or password you entered is incorrect", 403); }
+public class WrongUsernameOrPasswordException extends ForbiddenException {
+    public WrongUsernameOrPasswordException() { super("The combination of username and password you entered is incorrect"); }
 }

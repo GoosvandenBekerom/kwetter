@@ -45,19 +45,6 @@ public class User extends HateoasModel {
         followers = new ArrayList<>();
     }
 
-    public String generateToken() {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(JwtConfig.SECRET);
-            return JWT.create()
-                    .withClaim("user", username)
-                    .withIssuer("auth0")
-                    .sign(algorithm);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String getUsername() {
         return username;
     }

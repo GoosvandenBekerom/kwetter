@@ -63,7 +63,7 @@ public class UserResource extends JsonResource{
     @POST
     @Path("login")
     @Consumes(APPLICATION_FORM_URLENCODED)
-    @Operation(summary = "Login user", responses = @ApiResponse(description = "Authorisation token"))
+    @Operation(summary = "Login user")
     public Response login(@FormParam("username") String username, @FormParam("password") String password) {
         String token = repo.login(username, password);
         JsonObject json = Json.createObjectBuilder().add("token", token).build();
@@ -73,10 +73,23 @@ public class UserResource extends JsonResource{
     @POST
     @Path("{username}/follow")
     @Secured
-    @Operation(summary = "Follow user", security = @SecurityRequirement(name = "Bearer token"))
+    @Operation(summary = "Follow user", security = @SecurityRequirement(name = "Authorisation token"))
     public Response followUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
         repo.followUser(context.getProperty("user").toString(), username);
         JsonObject json = Json.createObjectBuilder().add("message", "Successfully followed user @" + username).build();
+        return Response.ok(json).build();
+    }
+
+    @PUT
+    @Path("settings/password")
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    @Secured
+    @Operation(summary = "Change Password", responses = @ApiResponse(description = "Authorisation token"))
+    public Response changePassword(@Context ContainerRequestContext context,
+                                   @FormParam("password") String password,
+                                   @FormParam("newPassword") String newPassword) {
+        repo.changePassword(context.getProperty("user").toString(), password, newPassword);
+        JsonObject json = Json.createObjectBuilder().add("message", "Successfully updated password").build();
         return Response.ok(json).build();
     }
 }
