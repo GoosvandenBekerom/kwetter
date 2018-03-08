@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Hashtag {
+public class Hashtag extends HateoasModel {
     @Id
     private String value;
     private int count = 0;
