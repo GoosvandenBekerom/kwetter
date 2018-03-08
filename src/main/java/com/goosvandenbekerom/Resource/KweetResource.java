@@ -4,8 +4,11 @@ import com.goosvandenbekerom.Exception.UnauthorizedException;
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.KweetRepo;
 import com.goosvandenbekerom.bean.UserRepo;
+import com.goosvandenbekerom.model.Hashtag;
 import com.goosvandenbekerom.model.Kweet;
+import com.goosvandenbekerom.model.Mention;
 import com.goosvandenbekerom.model.User;
+import com.goosvandenbekerom.util.HATEOAS;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -32,14 +35,42 @@ public class KweetResource extends JsonResource {
     @GET
     @Operation(summary = "Get all kweets")
     public List<Kweet> getAll() {
-        return kweetRepo.getAll();
+        return HATEOAS.kweetList(kweetRepo.getAll(), uri);
     }
 
     @GET
     @Path("{id}")
     @Operation(summary = "Get a kweet by its id")
     public Kweet find(@PathParam("id") long id) {
-        return kweetRepo.getById(id);
+        return HATEOAS.kweet(kweetRepo.getById(id), uri);
+    }
+
+    @GET
+    @Path("{id}/owner")
+    @Operation(summary = "Get the user that owns this kweet")
+    public User getOwner(@PathParam("id") long id) {
+        return HATEOAS.user(kweetRepo.getOwner(id), uri);
+    }
+
+    @GET
+    @Path("{id}/mentions")
+    @Operation(summary = "Get all mentions in this kweet")
+    public List<Mention> getMentionsById(@PathParam("id") long id) {
+        return HATEOAS.mentionList(kweetRepo.getMentions(id), uri);
+    }
+
+    @GET
+    @Path("{id}/hashtags")
+    @Operation(summary = "Get all hashtags in this kweet")
+    public List<Hashtag> getHashtagsById(@PathParam("id") long id) {
+        return HATEOAS.hashtagList(kweetRepo.getHashtags(id), uri);
+    }
+
+    @GET
+    @Path("{id}/likes")
+    @Operation(summary = "Get a list of all users following this kweet")
+    public List<User> getLikesById(@PathParam("id") long id) {
+        return HATEOAS.userList(kweetRepo.getLikesById(id), uri);
     }
 
     @POST
@@ -49,23 +80,16 @@ public class KweetResource extends JsonResource {
     public Kweet save(@Context ContainerRequestContext context, @FormParam("message") String message) {
         User user = userRepo.getById(context.getProperty("user").toString());
         Kweet kweet = new Kweet(user, message);
-        return kweetRepo.save(kweet);
+        return HATEOAS.kweet(kweetRepo.save(kweet), uri);
     }
 
-    @PUT
+    @POST
     @Path("{id}/like")
     @Secured
     @Operation(summary = "Like a kweet", security = @SecurityRequirement(name = "Bearer token"))
     public Response toggleLike(@Context ContainerRequestContext context, @PathParam("id") long id) {
         kweetRepo.toggleLike(id, context.getProperty("user").toString());
         return Response.ok().build();
-    }
-
-    @GET
-    @Path("{id}/likes")
-    @Operation(summary = "Get a list of all users following this kweet")
-    public List<User> getLikesById(@PathParam("id") long id) {
-        return kweetRepo.getLikesById(id);
     }
 
     @DELETE

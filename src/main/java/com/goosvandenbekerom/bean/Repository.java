@@ -20,8 +20,14 @@ abstract public class Repository<TEntity, TIdType> {
         return entity;
     }
 
+    public boolean exists(TIdType id) {
+        return em.find(entityClass, id) != null;
+    }
+
     public TEntity getById(TIdType id) {
-        return em.find(entityClass, id);
+        TEntity entity = em.find(entityClass, id);
+        if (entity == null) throw notFound(id);
+        return entity;
     }
 
     public List<TEntity> getAll() { return this.getAll(50); }

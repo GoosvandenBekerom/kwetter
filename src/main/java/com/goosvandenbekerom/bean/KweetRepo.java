@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.bean;
 
+import com.goosvandenbekerom.model.Hashtag;
 import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.Mention;
 import com.goosvandenbekerom.model.User;
@@ -8,7 +9,6 @@ import com.goosvandenbekerom.util.RegexHelpers;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.ForbiddenException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,20 +33,24 @@ public class KweetRepo extends Repository<Kweet, Long> {
     public void toggleLike(long kweetId, String username) {
         Kweet kweet = getById(kweetId);
         User user = userRepo.getById(username);
-
-        if (kweet == null) throw notFound(kweetId);
-        if (user == null) throw userRepo.notFound(username);
-
-        if (kweet.getOwner().equals(user)) throw new ForbiddenException("You can't like your own kweet");
-
         if (kweet.likedBy(user)) kweet.removeLike(user);
         else kweet.addLike(user);
     }
 
-    public List<User> getLikesById(long id) {
-        Kweet kweet = getById(id);
-        if (kweet == null) throw notFound(id);
-        return getById(id).getLikes();
+    public User getOwner(long kweetId) {
+        return getById(kweetId).getOwner();
+    }
+
+    public List<Mention> getMentions(long kweetId) {
+        return getById(kweetId).getMentions();
+    }
+
+    public List<Hashtag> getHashtags(long kweetId) {
+        return getById(kweetId).getHashtags();
+    }
+
+    public List<User> getLikesById(long kweetId) {
+        return getById(kweetId).getLikes();
     }
 
     private void processKweet(Kweet kweet) {
@@ -67,9 +71,10 @@ public class KweetRepo extends Repository<Kweet, Long> {
      * @param kweet to process mentions from
      */
     private void processMentions(Kweet kweet) {
-        for(String mention : processRegex(kweet.getMessage(), RegexHelpers.MENTION)) {
-            User user = userRepo.getById(mention);
-            if (user == null) continue;
+        for(String username : processRegex(kweet.getMessage(), RegexHelpers.MENTION)) {
+            if (!userRepo.exists(username)) continue;
+
+            User user = userRepo.getById(username);
             kweet.getMentions().add(new Mention(user, kweet));
         }
     }

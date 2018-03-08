@@ -1,6 +1,7 @@
 package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.bean.MentionRepo;
+import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.Mention;
 import com.goosvandenbekerom.model.User;
 import com.goosvandenbekerom.util.HATEOAS;
@@ -10,7 +11,6 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import java.util.List;
 
 @Path("mention")
 public class MentionResource extends JsonResource {
@@ -18,12 +18,6 @@ public class MentionResource extends JsonResource {
 
     @Inject
     public MentionResource(MentionRepo repo) { this.repo = repo; }
-
-    @GET
-    @Operation(summary = "Get all mentions")
-    public List<Mention> getAll() {
-        return HATEOAS.mentionList(repo.getAll(), uri);
-    }
 
     @GET
     @Path("{id}")
@@ -34,8 +28,15 @@ public class MentionResource extends JsonResource {
 
     @GET
     @Path("{id}/user")
-    @Operation(summary = "Get a mention by its id")
+    @Operation(summary = "Get the user that is mentioned in this kweet")
     public User getUser(@PathParam("id") long id) {
         return HATEOAS.user(repo.getUserFromMention(id), uri);
+    }
+
+    @GET
+    @Path("{id}/kweet")
+    @Operation(summary = "Get the kweet that this mention is in")
+    public Kweet getKweet(@PathParam("id") long id) {
+        return HATEOAS.kweet(repo.getKweetFromMention(id), uri);
     }
 }

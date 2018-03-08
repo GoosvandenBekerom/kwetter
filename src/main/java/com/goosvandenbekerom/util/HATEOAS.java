@@ -1,5 +1,7 @@
 package com.goosvandenbekerom.util;
 
+import com.goosvandenbekerom.Resource.HashtagResource;
+import com.goosvandenbekerom.Resource.KweetResource;
 import com.goosvandenbekerom.Resource.MentionResource;
 import com.goosvandenbekerom.Resource.UserResource;
 import com.goosvandenbekerom.model.Hashtag;
@@ -7,7 +9,9 @@ import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.Mention;
 import com.goosvandenbekerom.model.User;
 
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -19,48 +23,34 @@ import java.util.List;
  */
 public class HATEOAS {
     static public User user(User user, UriInfo uri) {
-        user.addLink(
-                "self",
-                uri.getBaseUriBuilder().path(UserResource.class).path(user.getUsername()).build()
-        );
-        user.addLink(
-                "following",
-                uri.getBaseUriBuilder().path(UserResource.class).path(user.getUsername()).path("following").build()
-        );
-        user.addLink(
-                "followers",
-                uri.getBaseUriBuilder().path(UserResource.class).path(user.getUsername()).path("followers").build()
-        );
+        URI baseUri = uri.getBaseUriBuilder().path(UserResource.class).path(user.getUsername()).build();
+        user.addLink("self", baseUri);
+        user.addLink("following", UriBuilder.fromUri(baseUri).path("following").build());
+        user.addLink("followers", UriBuilder.fromUri(baseUri).path("followers").build());
         return user;
     }
 
     static public Kweet kweet(Kweet kweet, UriInfo uri) {
-        kweet.addLink(
-                "self",
-                uri.getBaseUriBuilder().path(UserResource.class).path(String.valueOf(kweet.getId())).build()
-        );
-        //todo add links
+        URI baseUri = uri.getBaseUriBuilder().path(KweetResource.class).path(String.valueOf(kweet.getId())).build();
+        kweet.addLink("self", baseUri);
+        kweet.addLink("owner", UriBuilder.fromUri(baseUri).path("owner").build());
+        kweet.addLink("mentions", UriBuilder.fromUri(baseUri).path("mentions").build());
+        kweet.addLink("hashtags", UriBuilder.fromUri(baseUri).path("hashtags").build());
         return kweet;
     }
 
     static public Mention mention(Mention mention, UriInfo uri) {
-        mention.addLink(
-                "self",
-                uri.getBaseUriBuilder().path(MentionResource.class).path(String.valueOf(mention.getId())).build()
-        );
-        mention.addLink(
-                "user",
-                uri.getBaseUriBuilder().path(MentionResource.class).path(String.valueOf(mention.getId())).path("user").build()
-        );
-        mention.addLink(
-                "kweet",
-                uri.getBaseUriBuilder().path(MentionResource.class).path(String.valueOf(mention.getId())).path("kweet").build()
-        );
+        URI baseUri = uri.getBaseUriBuilder().path(MentionResource.class).path(String.valueOf(mention.getId())).build();
+        mention.addLink("self", baseUri);
+        mention.addLink("user", UriBuilder.fromUri(baseUri).path("user").build());
+        mention.addLink("kweet", UriBuilder.fromUri(baseUri).path("kweet").build());
         return mention;
     }
 
     static public Hashtag hashtag(Hashtag hashtag, UriInfo uri) {
-        //todo add links
+        URI baseUri = uri.getBaseUriBuilder().path(HashtagResource.class).path(hashtag.getValue()).build();
+        hashtag.addLink("self", baseUri);
+        hashtag.addLink("kweets", UriBuilder.fromUri(baseUri).path("kweets").build());
         return hashtag;
     }
 

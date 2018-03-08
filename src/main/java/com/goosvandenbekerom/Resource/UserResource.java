@@ -39,6 +39,19 @@ public class UserResource extends JsonResource{
         return HATEOAS.user(repo.getById(username), uri);
     }
 
+    @GET
+    @Path("{username}/following")
+    @Operation(summary = "Get all users that this user follows")
+    public List<User> getFollowing(@PathParam("username") String username) {
+        return HATEOAS.userList(repo.getFollowing(username), uri);
+    }
+
+    @GET
+    @Path("{username}/followers")
+    @Operation(summary = "Get all followers for this user")
+    public List<User> getFollowers(@PathParam("username") String username) {
+        return HATEOAS.userList(repo.getFollowers(username), uri);
+    }
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
     @Operation(summary = "Register a new user")
@@ -65,19 +78,5 @@ public class UserResource extends JsonResource{
         repo.followUser(context.getProperty("user").toString(), username);
         JsonObject json = Json.createObjectBuilder().add("message", "Successfully followed user @" + username).build();
         return Response.ok(json).build();
-    }
-
-    @GET
-    @Path("{username}/following")
-    @Operation(summary = "Get all users that this user follows")
-    public List<User> getFollowing(@PathParam("username") String username) {
-        return HATEOAS.userList(repo.getFollowing(username), uri);
-    }
-
-    @GET
-    @Path("{username}/followers")
-    @Operation(summary = "Get all followers for this user")
-    public List<User> getFollowers(@PathParam("username") String username) {
-        return HATEOAS.userList(repo.getFollowers(username), uri);
     }
 }

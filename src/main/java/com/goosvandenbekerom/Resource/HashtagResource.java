@@ -2,6 +2,8 @@ package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.bean.HashtagRepo;
 import com.goosvandenbekerom.model.Hashtag;
+import com.goosvandenbekerom.model.Kweet;
+import com.goosvandenbekerom.util.HATEOAS;
 import io.swagger.v3.oas.annotations.Operation;
 
 import javax.inject.Inject;
@@ -20,13 +22,20 @@ public class HashtagResource extends JsonResource {
     @GET
     @Operation(summary = "Get all hashtags")
     public List<Hashtag> getAll() {
-        return repo.getAll();
+        return HATEOAS.hashtagList(repo.getAll(), uri);
     }
 
     @GET
-    @Path("{id}")
+    @Path("{tag}")
     @Operation(summary = "Get a hashtag by its id")
-    public Hashtag find(@PathParam("id") String id) {
-        return repo.getById(id);
+    public Hashtag find(@PathParam("tag") String tag) {
+        return HATEOAS.hashtag(repo.getById(tag), uri);
+    }
+
+    @GET
+    @Path("{tag}/kweets")
+    @Operation(summary = "Get kweets that are tagged with this hashtag")
+    public List<Kweet> getKweets(@PathParam("tag") String tag) {
+        return HATEOAS.kweetList(repo.getKweetsWithTag(tag), uri);
     }
 }

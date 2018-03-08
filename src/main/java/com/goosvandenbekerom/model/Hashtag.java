@@ -1,8 +1,10 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +15,7 @@ public class Hashtag extends HateoasModel {
     private int count = 0;
 
     @ManyToMany(mappedBy = "hashtags")
+    @JsonbTransient
     private List<Kweet> kweets;
 
     /**
@@ -46,6 +49,17 @@ public class Hashtag extends HateoasModel {
 
     public void increaseCount() {
         count++;
+    }
+
+    public List<Kweet> getKweets() {
+        if (kweets == null) {
+            kweets = new ArrayList<>();
+        }
+        return kweets;
+    }
+
+    public void setKweets(List<Kweet> kweets) {
+        this.kweets = kweets;
     }
 
     @Override

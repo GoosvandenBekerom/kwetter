@@ -10,15 +10,11 @@ import javax.ejb.Stateless;
 public class MentionRepo extends Repository<Mention, Long> {
     public MentionRepo() { super(Mention.class); }
 
-    public Kweet getKweetFromMention(long mentionId) {
-        Mention mention = getById(mentionId);
-        if (mention == null) throw notFound(mentionId);
-        return mention.getKweet();
+    public Kweet getKweetFromMention(long id) {
+        return getById(id).getKweet();
     }
 
-    public User getUserFromMention(long mentionId) {
-        Mention mention = getById(mentionId);
-        if (mention == null) throw notFound(mentionId);
-        return mention.getUser();
+    public User getUserFromMention(long id) {
+        return getById(id).getUser();
     }
 }
