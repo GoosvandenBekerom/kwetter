@@ -28,14 +28,14 @@ public class UserResource extends JsonResource{
     @GET
     @Operation(summary = "Get all users")
     public List<User> getAll() {
-        return repo.getAll();
+        return hateoasList(repo.getAll());
     }
 
     @GET
     @Path("{username}")
     @Operation(summary = "Get user by username")
     public User find(@PathParam("username") String username) {
-        return repo.getById(username);
+        return hateoas(repo.getById(username));
     }
 
     @POST
@@ -46,7 +46,8 @@ public class UserResource extends JsonResource{
             @FormParam("password") String password,
             @FormParam("fullName") String fullName)
     {
-        return repo.save(new User(username, password, fullName));
+        User user = repo.save(new User(username, password, fullName));
+        return hateoas(user);
     }
 
     @POST
@@ -73,13 +74,46 @@ public class UserResource extends JsonResource{
     @Path("{username}/following")
     @Operation(summary = "Get all users that this user follows")
     public List<User> getFollowing(@PathParam("username") String username) {
-        return repo.getFollowing(username);
+        return hateoasList(repo.getFollowing(username));
     }
 
     @GET
     @Path("{username}/followers")
     @Operation(summary = "Get all followers for this user")
     public List<User> getFollowers(@PathParam("username") String username) {
-        return repo.getFollowers(username);
+        return hateoasList(repo.getFollowers(username));
+    }
+
+    private User hateoas(User user) {
+        addSelfLink(user);
+        addFollowingLink(user);
+        addFollowersLink(user);
+        return user;
+    }
+
+    private List<User> hateoasList(List<User> users) {
+        users.forEach(this::hateoas);
+        return users;
+    }
+
+    private void addSelfLink(User user) {
+        user.addLink(
+                "Self",
+                uri.getBaseUriBuilder().path(getClass()).path(user.getUsername()).build()
+        );
+    }
+
+    private void addFollowingLink(User user) {
+        user.addLink(
+                "Following",
+                uri.getBaseUriBuilder().path(getClass()).path(user.getUsername()).path("following").build()
+        );
+    }
+
+    private void addFollowersLink(User user) {
+        user.addLink(
+                "Following",
+                uri.getBaseUriBuilder().path(getClass()).path(user.getUsername()).path("followers").build()
+        );
     }
 }

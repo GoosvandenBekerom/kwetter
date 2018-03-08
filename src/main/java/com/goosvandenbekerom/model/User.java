@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class User {
+public class User extends HateoasModel {
 
     @Id
     private String username;
