@@ -92,4 +92,15 @@ public class UserResource extends JsonResource{
         JsonObject json = Json.createObjectBuilder().add("message", "Successfully updated password").build();
         return Response.ok(json).build();
     }
+
+    @PUT
+    @Path("settings/fullName")
+    @Consumes(APPLICATION_FORM_URLENCODED)
+    @Secured
+    @Operation(summary = "Change full name", responses = @ApiResponse(description = "Authorisation token"))
+    public Response changePassword(@Context ContainerRequestContext context, @FormParam("fullName") String newFullName) {
+        repo.changeFullName(context.getProperty("user").toString(), newFullName);
+        JsonObject json = Json.createObjectBuilder().add("message", "Successfully updated full name").build();
+        return Response.ok(json).build();
+    }
 }

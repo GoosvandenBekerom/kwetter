@@ -60,6 +60,11 @@ public class UserRepo extends Repository<User, String> {
         user.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
     }
 
+    public void changeFullName(String username, String newFullName) {
+        User user = getById(username);
+        user.setFullName(newFullName);
+    }
+
     private String generateToken(String username) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(JwtConfig.SECRET);
