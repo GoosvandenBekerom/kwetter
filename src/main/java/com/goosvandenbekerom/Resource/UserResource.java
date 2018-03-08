@@ -5,7 +5,6 @@ import com.goosvandenbekerom.bean.UserRepo;
 import com.goosvandenbekerom.model.User;
 import com.goosvandenbekerom.util.HATEOAS;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import javax.inject.Inject;
@@ -84,7 +83,7 @@ public class UserResource extends JsonResource{
     @Path("settings/password")
     @Consumes(APPLICATION_FORM_URLENCODED)
     @Secured
-    @Operation(summary = "Change Password", responses = @ApiResponse(description = "Authorisation token"))
+    @Operation(summary = "Change Password", security = @SecurityRequirement(name = "Authorisation token"))
     public Response changePassword(@Context ContainerRequestContext context,
                                    @FormParam("password") String password,
                                    @FormParam("newPassword") String newPassword) {
@@ -97,7 +96,7 @@ public class UserResource extends JsonResource{
     @Path("settings/fullName")
     @Consumes(APPLICATION_FORM_URLENCODED)
     @Secured
-    @Operation(summary = "Change full name", responses = @ApiResponse(description = "Authorisation token"))
+    @Operation(summary = "Change full name", security = @SecurityRequirement(name = "Authorisation token"))
     public Response changePassword(@Context ContainerRequestContext context, @FormParam("fullName") String newFullName) {
         repo.changeFullName(context.getProperty("user").toString(), newFullName);
         JsonObject json = Json.createObjectBuilder().add("message", "Successfully updated full name").build();
