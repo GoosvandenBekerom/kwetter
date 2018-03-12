@@ -1,0 +1,5 @@
+<beans>
+    <interceptors>
+        <class>com.goosvandenbekerom.interceptor.KweetInterceptor</class>
+    </interceptors>
+</beans>

@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.bean;
 
+import com.goosvandenbekerom.annotation.Profanity;
 import com.goosvandenbekerom.model.Hashtag;
 import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.Mention;
@@ -25,6 +26,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
     public KweetRepo() { super(Kweet.class); }
 
     @Override
+    @Profanity
     public Kweet save(Kweet kweet) {
         this.processKweet(kweet);
         return super.save(kweet);
