@@ -10,6 +10,7 @@ import com.goosvandenbekerom.util.RegexHelpers;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,13 @@ public class KweetRepo extends Repository<Kweet, Long> {
 
     public List<User> getLikesById(long kweetId) {
         return getById(kweetId).getLikes();
+    }
+
+    @SuppressWarnings("unchecked") // stackoverflow question 115692
+    public List<Kweet> getTimelineForUser(String username, int offset, int limit) {
+        Query q = em.createNamedQuery("user.getTimeline", Kweet.class).setFirstResult(offset).setMaxResults(limit);
+        q.setParameter("username", username);
+        return q.getResultList();
     }
 
     private void processKweet(Kweet kweet) {
