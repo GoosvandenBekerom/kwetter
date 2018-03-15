@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
-abstract public class Repository<TEntity, TIdType> {
+public class Repository<TEntity, TIdType> {
     @PersistenceContext(unitName = "kwetter")
     EntityManager em;
 
