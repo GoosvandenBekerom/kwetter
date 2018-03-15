@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ public class Group {
     private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_GROUP")
+    @JsonbTransient
     private List<User> users;
 
     public Group() { this.users = new ArrayList<>(); }
