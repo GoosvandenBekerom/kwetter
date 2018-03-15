@@ -10,7 +10,7 @@ public class Group {
     @Id
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<User> users;
 
     public Group() { this.users = new ArrayList<>(); }

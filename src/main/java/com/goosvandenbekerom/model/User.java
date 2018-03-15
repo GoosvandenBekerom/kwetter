@@ -24,6 +24,9 @@ public class User extends HateoasModel {
     @JsonbTransient
     private List<User> followers;
 
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Group> groups;
+
     private Date created;
     private Date updated;
     @PrePersist
@@ -35,14 +38,15 @@ public class User extends HateoasModel {
         updated = new Date();
     }
 
-    public User() {}
-
+    public User() { }
     public User(String username, String password, String fullName) {
+        this();
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         following = new ArrayList<>();
         followers = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -70,7 +74,7 @@ public class User extends HateoasModel {
     }
 
     public List<User> getFollowing() {
-        if (following == null){
+        if (following == null) {
             following = new ArrayList<>();
         }
         return following;
@@ -89,6 +93,17 @@ public class User extends HateoasModel {
 
     public void setFollowers(List<User> followers) {
         this.followers = followers;
+    }
+
+    public List<Group> getGroups() {
+        if (groups == null) {
+            groups = new ArrayList<>();
+        }
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     public Date getCreated() {
