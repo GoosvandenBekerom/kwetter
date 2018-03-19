@@ -1,13 +1,16 @@
 package com.goosvandenbekerom.model;
 
 import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NamedQueries(
+        @NamedQuery(
+                name = "mention.getUnseen",
+                query = "SELECT m FROM Mention m WHERE m.user.username = :username AND m.seen = false"
+        )
+)
 public class Mention extends HateoasModel {
     @Id
     @GeneratedValue
@@ -21,10 +24,13 @@ public class Mention extends HateoasModel {
     @JsonbTransient
     private Kweet kweet;
 
+    private boolean seen;
+
     public Mention() {}
     public Mention(User user, Kweet kweet) {
         this.user = user;
         this.kweet = kweet;
+        this.seen = false;
     }
 
     public long getId() {
@@ -49,6 +55,14 @@ public class Mention extends HateoasModel {
 
     public void setKweet(Kweet kweet) {
         this.kweet = kweet;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 
     @Override
