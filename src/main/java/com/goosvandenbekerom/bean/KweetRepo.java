@@ -63,6 +63,13 @@ public class KweetRepo extends Repository<Kweet, Long> {
         return q.getResultList();
     }
 
+    @SuppressWarnings("unchecked") // stackoverflow question 115692
+    public List<Kweet> getTimelineForHashtag(String hashtag, int offset, int limit) {
+        Query q = em.createNamedQuery("hashtag.getTimeline", Kweet.class).setFirstResult(offset).setMaxResults(limit);
+        q.setParameter("hashtag", hashtag);
+        return q.getResultList();
+    }
+
     private void processKweet(Kweet kweet) {
         this.processHashtags(kweet);
         this.processMentions(kweet);

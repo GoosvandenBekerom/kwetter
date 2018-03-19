@@ -24,8 +24,21 @@ public class TimelineResource extends JsonResource {
             @Parameter(description = "offset to start from") @QueryParam("offset") @DefaultValue("0") int offset,
             @Parameter(description = "maximum amount of kweets") @QueryParam("limit") @DefaultValue("50") int limit
     ) {
-        if (offset <= 0) offset = 0;
-        if (limit <= 0) limit = 50;
+        if (offset < 0) offset = 0;
+        if (limit < 0) limit = 50;
         return HATEOAS.kweetList(kweetRepo.getTimelineForUser(username, offset, limit), uri);
+    }
+
+    @GET
+    @Path("hashtag/{hashtag}")
+    @Operation(summary = "Get the timeline for a hashtag")
+    public List<Kweet> getTimelineForHashtag(
+            @PathParam("hashtag") String hashtag,
+            @Parameter(description = "offset to start from") @QueryParam("offset") @DefaultValue("0") int offset,
+            @Parameter(description = "maximum amount of kweets") @QueryParam("limit") @DefaultValue("50") int limit
+    ) {
+        if (offset < 0) offset = 0;
+        if (limit < 0) limit = 50;
+        return HATEOAS.kweetList(kweetRepo.getTimelineForHashtag(hashtag, offset, limit), uri);
     }
 }

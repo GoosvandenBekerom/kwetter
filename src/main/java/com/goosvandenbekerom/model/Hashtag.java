@@ -1,14 +1,17 @@
 package com.goosvandenbekerom.model;
 
 import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@NamedQueries(
+        @NamedQuery(name = "hashtag.getTimeline",
+                query = "SELECT k FROM Kweet k, Hashtag h WHERE h.value = :hashtag "+
+                        "AND h.value in (SELECT t.value FROM k.hashtags t) ORDER BY k.created desc")
+)
 public class Hashtag extends HateoasModel {
     @Id
     private String value;
