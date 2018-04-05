@@ -136,12 +136,11 @@ public class User extends HateoasModel {
         return Objects.equals(getUsername(), user.getUsername()) &&
                 Objects.equals(getPassword(), user.getPassword()) &&
                 Objects.equals(getFullName(), user.getFullName()) &&
-                Objects.equals(getFollowing(), user.getFollowing()) &&
                 Objects.equals(getCreated(), user.getCreated());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getPassword(), getFullName(), getFollowing(), getCreated());
+        return Objects.hash(getUsername(), getPassword(), getFullName(), getCreated());
     }
 }
