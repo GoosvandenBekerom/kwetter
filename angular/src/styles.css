@@ -16,3 +16,7 @@ body {
     padding-top: 56px;
   }
 }
+
+textarea {
+  resize: none;
+}
