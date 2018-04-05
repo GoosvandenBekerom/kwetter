@@ -7,6 +7,7 @@ import { NavbarComponent } from './modules/navbar/navbar.component';
 import { HomeComponent } from './modules/home/home.component';
 import { UserCardComponent } from './modules/user-card/user-card.component';
 import { TrendingCardComponent } from './modules/trending-card/trending-card.component';
+import { KweetFormComponent } from './modules/kweet-form/kweet-form.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent }
@@ -18,7 +19,8 @@ const routes: Routes = [
     NavbarComponent,
     HomeComponent,
     UserCardComponent,
-    TrendingCardComponent
+    TrendingCardComponent,
+    KweetFormComponent
   ],
   imports: [
     BrowserModule,
