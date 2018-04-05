@@ -37,6 +37,7 @@ public class Repository<TEntity, TIdType> {
     }
 
     public void delete(TEntity entity) {
+        if (!em.contains(entity)) entity = em.merge(entity);
         em.remove(entity);
     }
 
