@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './modules/navbar/navbar.component';
 import { HomeComponent } from './modules/home/home.component';
 import { UserCardComponent } from './modules/user-card/user-card.component';
+import { TrendingCardComponent } from './modules/trending-card/trending-card.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent }
@@ -16,7 +17,8 @@ const routes: Routes = [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    UserCardComponent
+    UserCardComponent,
+    TrendingCardComponent
   ],
   imports: [
     BrowserModule,
