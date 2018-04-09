@@ -25,7 +25,6 @@ export class KweetComponent implements OnInit {
   ngOnInit() {}
 
   public getCreatedRelative() {
-    return moment(new Date('01/01/2018')).fromNow()
-    // return moment(this.kweet.created.toLocaleString()).fromNow()
+    return moment(this.kweet.created).fromNow()
   }
 }
