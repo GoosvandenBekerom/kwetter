@@ -4,8 +4,10 @@
     <p class="small mb-0 text-muted">Kweeted {{getCreatedRelative()}}</p>
 
   </div>
-  <div class="col-4 text-right">
-    <button class="btn btn-block btn-outline-info"><i class="far fa-thumbs-up"></i> {{kweet.likeCount}}</button>
+  <div class="col-sm-4 text-right">
+    <button class="btn btn-block" [ngClass]="liked ? 'btn-info' : 'btn-outline-info'" (click)="onLikeClick()" style="outline: none;">
+      <i class="far fa-thumbs-up"></i> {{kweet.likeCount}}
+    </button>
   </div>
 
   <div class="col" [innerHTML]="kweet.message"></div>

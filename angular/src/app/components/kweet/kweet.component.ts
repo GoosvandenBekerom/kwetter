@@ -9,6 +9,9 @@ import * as moment from 'moment';
 })
 export class KweetComponent implements OnInit {
   private _kweet: Kweet
+  @Input() isLast: boolean
+  public liked = true;
+
   @Input('kweet') set kweet(kweet: Kweet) {
     kweet.message = kweet.message
       .replace(/#(\S+)/g,'<a href="#" class="text-info" title="Find more posts tagged with #$1">#$1</a>')
@@ -18,13 +21,15 @@ export class KweetComponent implements OnInit {
   }
   get kweet() {return this._kweet}
 
-  @Input() isLast: boolean
-
   constructor() { }
 
   ngOnInit() {}
 
   public getCreatedRelative() {
     return moment(this.kweet.created).fromNow()
+  }
+
+  onLikeClick() {
+    this.liked = !this.liked;
   }
 }
