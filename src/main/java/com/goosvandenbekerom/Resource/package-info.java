@@ -5,7 +5,7 @@
         description = "API to communicate with Kwetter backend"
     ),
     servers = {
-        @Server(description = "local", url = "http://localhost:8080/kwetter-java-1.0-SNAPSHOT/api")
+        @Server(description = "local", url = "http://localhost:8080/kwetter/api")
     }
 )
 package com.goosvandenbekerom.Resource;
