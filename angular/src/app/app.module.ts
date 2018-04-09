@@ -9,9 +9,11 @@ import { UserCardComponent } from './components/user-card/user-card.component';
 import { TrendingCardComponent } from './components/trending-card/trending-card.component';
 import { KweetFormComponent } from './components/kweet-form/kweet-form.component';
 import { KweetComponent } from './components/kweet/kweet.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
-  {path:'', component: HomeComponent }
+  {path:'', component: HomeComponent },
+  {path:'search', component: SearchComponent }
 ];
 
 @NgModule({
@@ -22,7 +24,8 @@ const routes: Routes = [
     UserCardComponent,
     TrendingCardComponent,
     KweetFormComponent,
-    KweetComponent
+    KweetComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
