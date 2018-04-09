@@ -3,13 +3,13 @@
     <div class="card card-outline-primary">
       <div class="card-header">Login</div>
       <div class="card-body">
-        <form role="form">
+        <form (submit)="onLoginSubmit()">
           <fieldset>
             <div class="form-group">
-              <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
+              <input class="form-control" placeholder="Username" name="username" type="text" autofocus="" [(ngModel)]="username">
             </div>
             <div class="form-group">
-              <input class="form-control" placeholder="Password" name="password" type="password" value="">
+              <input class="form-control" placeholder="Password" name="password" type="password" [(ngModel)]="password">
             </div>
             <div class="form-group">
               <div class="custom-control custom-checkbox">
