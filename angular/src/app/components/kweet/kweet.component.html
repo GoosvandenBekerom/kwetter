@@ -1,10 +1,14 @@
 <div class="row kweet-row">
-  <div class="col-3">
-    <h5 class="text-center">@{{kweet.owner.username}}</h5>
-  </div>
-  <div class="col-9" [innerHTML]="kweet.message">
-  </div>
-</div>
+  <div class="col-8">
+    <h5>@{{kweet.owner.username}}</h5>
+    <p class="small mb-0 text-muted">Kweeted {{getCreatedRelative()}}</p>
 
+  </div>
+  <div class="col-4 text-right">
+    <button class="btn btn-block btn-outline-info"><i class="far fa-thumbs-up"></i> 3.215</button>
+  </div>
+
+  <div class="col" [innerHTML]="kweet.message"></div>
+</div>
 
 <hr *ngIf="!isLast" class="my-3">

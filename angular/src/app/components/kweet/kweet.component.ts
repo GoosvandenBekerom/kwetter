@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Kweet} from "../../models/Kweet";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-kweet',
@@ -23,4 +24,8 @@ export class KweetComponent implements OnInit {
 
   ngOnInit() {}
 
+  public getCreatedRelative() {
+    return moment(new Date('01/01/2018')).fromNow()
+    // return moment(this.kweet.created.toLocaleString()).fromNow()
+  }
 }

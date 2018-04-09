@@ -1,11 +1,7 @@
 @import 'bootstrap/bootstrap-reboot.min.css';
 @import 'bootstrap/bootstrap.min.css';
-
-/*!
- * Start Bootstrap - Logo Nav (https://startbootstrap.com/template-overviews/logo-nav)
- * Copyright 2013-2017 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-logo-nav/blob/master/LICENSE)
- */
+@import 'bootstrap/fontawesome.min.css';
+@import 'bootstrap/fa-regular.min.css';
 
 body {
   padding-top: 54px;
