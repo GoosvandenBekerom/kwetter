@@ -11,9 +11,11 @@ import { TrendingCardComponent } from './components/trending-card/trending-card.
 import { KweetFormComponent } from './components/kweet-form/kweet-form.component';
 import { KweetComponent } from './components/kweet/kweet.component';
 import { SearchComponent } from './components/search/search.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent },
+  {path:'login', component: LoginComponent },
   {path:'search/:query', component: SearchComponent }
 ];
 
@@ -26,7 +28,8 @@ const routes: Routes = [
     TrendingCardComponent,
     KweetFormComponent,
     KweetComponent,
-    SearchComponent
+    SearchComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
