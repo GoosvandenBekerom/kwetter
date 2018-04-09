@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Kweet} from "../../models/Kweet";
 
 @Component({
   selector: 'app-kweet',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./kweet.component.css']
 })
 export class KweetComponent implements OnInit {
+  private _kweet: Kweet
+  @Input('kweet') set kweet(kweet: Kweet) {
+    kweet.message = kweet.message
+      .replace(/#(\S+)/g,'<a href="#" class="text-info" title="Find more posts tagged with #$1">#$1</a>')
+      .replace(/@(\S+)/g,'<a href="#" class="text-info" title="Go to #$1\'s profile">@$1</a>')
+
+    this._kweet = kweet
+  }
+  get kweet() {return this._kweet}
+
+  @Input() isLast: boolean
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

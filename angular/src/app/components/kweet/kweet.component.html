@@ -1,3 +1,10 @@
-<p>
-  kweet works!
-</p>
+<div class="row kweet-row">
+  <div class="col-3">
+    <h5 class="text-center">@{{kweet.owner.username}}</h5>
+  </div>
+  <div class="col-9" [innerHTML]="kweet.message">
+  </div>
+</div>
+
+
+<hr *ngIf="!isLast" class="my-3">

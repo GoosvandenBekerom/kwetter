@@ -8,27 +8,7 @@
     <div class="card border-secondary mb-3">
       <div class="card-header">Timeline</div>
       <div class="card-body">
-
-        <div class="row kweet-row">
-          <div class="col-3">
-            <h5 class="text-center">@Goos</h5>
-          </div>
-          <div class="col-9">
-            Kweet tekst met <a href="#" class="text-info">#hashtags</a> en mentions naar <a href="#" class="text-info">@Marvin</a> enzo. Je kent het wel.
-          </div>
-        </div>
-
-        <hr class="my-3">
-
-        <div class="row kweet-row">
-          <div class="col-3">
-            <h5 class="text-center">@Marvin</h5>
-          </div>
-          <div class="col-9">
-            Vette <a href="#" class="text-info">#hashtags</a> in deze <a href="#" class="text-info">#kweet</a> man bruur!
-          </div>
-        </div>
-
+        <app-kweet *ngFor="let kweet of kweets; let i = index" [kweet]="kweet" [isLast]="i == kweets.length-1"></app-kweet>
       </div>
     </div>
   </div>
