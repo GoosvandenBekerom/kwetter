@@ -20,11 +20,15 @@ import { AuthInterceptor } from "./interceptors/AuthInterceptor";
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import {FlashService} from "./services/flash.service";
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent, canActivate: [AuthGuard] },
+  {path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] },
   {path:'login', component: LoginComponent },
-  {path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] }
+  {path:'register', component: RegisterComponent },
+  {path:'profile', component: ProfileComponent }
 ];
 
 @NgModule({
@@ -37,7 +41,9 @@ const routes: Routes = [
     KweetFormComponent,
     KweetComponent,
     SearchComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
