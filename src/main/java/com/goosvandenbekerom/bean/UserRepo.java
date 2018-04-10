@@ -12,6 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.ejb.Stateless;
 import javax.ws.rs.BadRequestException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -68,9 +69,11 @@ public class UserRepo extends Repository<User, String> {
     private String generateToken(String username) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(JwtConfig.SECRET);
+            Date now = new Date();
+            long dayInMs = 1000 * 60 * 60 * 24;
             return JWT.create()
                     .withClaim("user", username)
-                    .withIssuer("auth0")
+                    .withExpiresAt(new Date(now.getTime() + dayInMs))
                     .sign(algorithm);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
