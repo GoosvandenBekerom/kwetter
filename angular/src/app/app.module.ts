@@ -16,8 +16,10 @@ import { LoginComponent } from './components/login/login.component';
 
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
-import {AuthInterceptor} from "./interceptors/AuthInterceptor";
+import { AuthInterceptor } from "./interceptors/AuthInterceptor";
 
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import {FlashService} from "./services/flash.service";
 
 const routes: Routes = [
   {path:'', component: HomeComponent, canActivate: [AuthGuard] },
@@ -41,12 +43,14 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlashMessagesModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
-    AuthGuard
+    AuthGuard,
+    FlashService
   ],
   bootstrap: [AppComponent]
 })

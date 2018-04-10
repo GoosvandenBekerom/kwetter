@@ -28,3 +28,7 @@ button, button:focus, input:focus, textarea:focus {
   -moz-box-shadow: none !important;
   -webkit-box-shadow: none !important;
 }
+
+.alert p {
+  margin-bottom: 0;
+}
