@@ -16,10 +16,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   onLoginSubmit() {
-    this.authService.authenticate({username: this.username, password: this.password})
-      .subscribe(data => {
-        const body = data.body as any
-        console.log(body.token)
+    this.authService.authenticate(this.username, this.password)
+      .subscribe(() => {
+        console.log("authentication successful")
       },
       (err: HttpErrorResponse) => {
         console.log(err.error.message);
