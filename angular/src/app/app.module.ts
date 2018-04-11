@@ -24,13 +24,21 @@ import { FlashService } from "./services/flash.service";
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
+import {TimelineService} from "./services/timeline.service";
+import {UserResolver} from "./resolvers/UserResolver";
 
 const routes: Routes = [
-  {path:'', component: HomeComponent, canActivate: [AuthGuard] },
-  {path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] },
+  {
+    path:'', component: HomeComponent, canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
   {path:'login', component: LoginComponent },
   {path:'register', component: RegisterComponent },
-  {path:'profile', component: ProfileComponent }
+  {
+    path:'profile', component: ProfileComponent,
+    resolve: { user: UserResolver }
+  },
+  {path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -60,7 +68,9 @@ const routes: Routes = [
     AuthService,
     AuthGuard,
     FlashService,
-    UserService
+    UserService,
+    TimelineService,
+    UserResolver
   ],
   bootstrap: [AppComponent]
 })

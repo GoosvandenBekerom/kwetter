@@ -10,4 +10,8 @@ export class UserService {
     const body = new HttpParams().set("username", username).set("password", password).set("fullName", fullName)
     return this.http.post(`${BASE_URL}/user`, body, {headers: getHeaders(), observe: "response"})
   }
+
+  getKweets(username: string, offset: number = 0, limit: number = 50) {
+    return this.http.get(`${BASE_URL}/user/${username}/kweets?offset=${offset}&limit=${limit}`)
+  }
 }

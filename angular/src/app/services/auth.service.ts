@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http"
+import { HttpClient, HttpParams } from "@angular/common/http"
 import "rxjs/add/operator/map";
 import * as jwt_decode from 'jwt-decode'
 import { BASE_URL, getHeaders } from "../utils/constants";
+import {User} from "../models/User";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,20 @@ export class AuthService {
         AuthService.setSession(data.body.token)
         return data
       })
+  }
+
+  getLoggedInUser() : Observable<User> {
+    const token = AuthService.getSession()
+    if (!token) return null
+
+    const decoded = jwt_decode(token)
+    return this.http.get<User>(`${BASE_URL}/user/${decoded.user}`)
+  }
+
+  getLoggedInUsername() : string {
+    const token = AuthService.getSession()
+    if (!token) return null
+    return jwt_decode(token).user
   }
 
   private static setSession(token: string) {
