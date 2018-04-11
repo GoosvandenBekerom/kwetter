@@ -30,6 +30,10 @@ public class User extends HateoasModel {
     private String password;
     private String fullName;
 
+    private int kweetCount;
+    private int followerCount;
+    private int followingCount;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonbTransient
     private List<User> following;
@@ -94,6 +98,30 @@ public class User extends HateoasModel {
             following = new ArrayList<>();
         }
         return following;
+    }
+
+    public int getKweetCount() {
+        return kweetCount;
+    }
+
+    public void setKweetCount(int kweetCount) {
+        this.kweetCount = kweetCount;
+    }
+
+    public int getFollowerCount() {
+        return followers.size();
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public int getFollowingCount() {
+        return following.size();
+    }
+
+    public void setFollowingCount(int followingCount) {
+        this.followingCount = followingCount;
     }
 
     public void setFollowing(List<User> following) {

@@ -73,6 +73,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
     private void processKweet(Kweet kweet) {
         this.processHashtags(kweet);
         this.processMentions(kweet);
+        kweet.getOwner().setKweetCount(kweet.getOwner().getKweetCount()+1);
     }
     /**
      * Finds all hashtags and adds them to kweet
