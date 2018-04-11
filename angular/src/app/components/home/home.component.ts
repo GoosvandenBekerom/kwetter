@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Kweet} from "../../models/Kweet";
 import {User} from "../../models/User";
+import {ActivatedRoute} from "@angular/router";
+import {TimelineService} from "../../services/timeline.service";
 
 @Component({
   selector: 'app-home',
@@ -8,15 +10,19 @@ import {User} from "../../models/User";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  user: User
+  kweets: Kweet[]
 
-  public kweets: Kweet[]
+  constructor(
+    private route: ActivatedRoute,
+    private timeline: TimelineService
+  ) {}
 
-  constructor() {
-    this.kweets = Array.of(
-      new Kweet(1, new User("Goos", "Goos van den Bekerom", new Date()), "Kweet tekst met #hashtags en mentions naar @Marvin enzo. Je kent het wel.", 2, new Date()),
-      new Kweet(1, new User("Marvin", "Marvin Zwolsman", new Date()), "Vette #hashtags in deze #kweet man bruur!", 3, new Date())
+  ngOnInit() {
+    this.user = this.route.snapshot.data.user
+    this.timeline.forUser(this.user.username).subscribe(
+      timeline => this.kweets = timeline,
+      err => console.log(err.error.message)
     )
   }
-
-  ngOnInit() {}
 }
