@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http"
 import "rxjs/add/operator/map";
 import * as jwt_decode from "jwt-decode"
+import {BASE_URL} from "../utils/constants";
 
 @Injectable()
 export class AuthService {
   static tokenKey = 'id_token'
-  private baseUrl = 'http://localhost:8080/kwetter/api'
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +18,7 @@ export class AuthService {
 
   authenticate(username: string, password: string) {
     const body = new HttpParams().set("username", username).set("password", password)
-    return this.http.post(this.baseUrl+'/user/login', body, {headers: AuthService.getHeaders(), observe: "response"})
+    return this.http.post(`${BASE_URL}/user/login`, body, {headers: AuthService.getHeaders(), observe: "response"})
       .map((data: any) => {
         this.setSession(data.body.token)
         return data
