@@ -23,6 +23,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { FlashService } from "./services/flash.service";
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent, canActivate: [AuthGuard] },
@@ -44,7 +45,8 @@ const routes: Routes = [
     SearchComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    TimelineComponent
   ],
   imports: [
     BrowserModule,

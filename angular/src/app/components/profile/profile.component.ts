@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Kweet} from "../../models/Kweet";
+import {TimelineService} from "../../services/timeline.service";
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  private kweets: Kweet[]
 
-  constructor() { }
+  constructor(private timeline: TimelineService) { }
 
   ngOnInit() {
-  }
+    const username = "..."
+    this.timeline.forUser(username).subscribe(data => {
 
+    })
+  }
 }

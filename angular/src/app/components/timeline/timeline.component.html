@@ -1,0 +1,6 @@
+<div class="card border-secondary mb-3">
+  <div class="card-header">Timeline</div>
+  <div class="card-body">
+    <app-kweet *ngFor="let kweet of kweets; let i = index" [kweet]="kweet" [isLast]="i == kweets.length-1"></app-kweet>
+  </div>
+</div>
