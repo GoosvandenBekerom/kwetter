@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http"
 import "rxjs/add/operator/map";
 import * as jwt_decode from "jwt-decode"
-import {BASE_URL} from "../utils/constants";
+import {BASE_URL, getHeaders} from "../utils/constants";
 
 @Injectable()
 export class AuthService {
@@ -10,15 +10,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  private static getHeaders() {
-    let headers = new HttpHeaders()
-    headers.append('Content-Type', 'application/x-www-form-urlencoded')
-    return headers
-  }
-
   authenticate(username: string, password: string) {
     const body = new HttpParams().set("username", username).set("password", password)
-    return this.http.post(`${BASE_URL}/user/login`, body, {headers: AuthService.getHeaders(), observe: "response"})
+    return this.http.post(`${BASE_URL}/user/login`, body, {headers: getHeaders(), observe: "response"})
       .map((data: any) => {
         this.setSession(data.body.token)
         return data
