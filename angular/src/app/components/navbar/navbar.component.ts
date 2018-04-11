@@ -10,7 +10,7 @@ import {AuthService} from "../../services/auth.service";
 export class NavbarComponent implements OnInit {
   query: string
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -20,11 +20,11 @@ export class NavbarComponent implements OnInit {
   }
 
   isLoggedIn() {
-    return !this.authService.isTokenExpired()
+    return !AuthService.isTokenExpired()
   }
 
   onLogoutClick() {
-    this.authService.logout()
+    AuthService.logout()
     this.router.navigate(['/login'])
   }
 }

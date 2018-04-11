@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http"
 import "rxjs/add/operator/map";
-import * as jwt_decode from "jwt-decode"
-import {BASE_URL, getHeaders} from "../utils/constants";
+import * as jwt_decode from 'jwt-decode'
+import { BASE_URL, getHeaders } from "../utils/constants";
 
 @Injectable()
 export class AuthService {
@@ -14,26 +14,26 @@ export class AuthService {
     const body = new HttpParams().set("username", username).set("password", password)
     return this.http.post(`${BASE_URL}/user/login`, body, {headers: getHeaders(), observe: "response"})
       .map((data: any) => {
-        this.setSession(data.body.token)
+        AuthService.setSession(data.body.token)
         return data
       })
   }
 
-  private setSession(token: string) {
+  private static setSession(token: string) {
     if (!token) return
     window.localStorage.setItem(AuthService.tokenKey, token)
   }
 
-  getSession() {
+  static getSession() {
     return localStorage.getItem(AuthService.tokenKey)
   }
 
-  logout() {
+  static logout() {
     localStorage.removeItem(AuthService.tokenKey)
   }
 
-  isTokenExpired() : boolean {
-    const token = this.getSession()
+  static isTokenExpired() : boolean {
+    const token = AuthService.getSession()
     if (!token) return true
 
     const date = AuthService.getTokenExpirationDate(token);
