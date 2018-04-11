@@ -2,9 +2,11 @@ package com.goosvandenbekerom.Resource;
 
 import com.goosvandenbekerom.annotation.Secured;
 import com.goosvandenbekerom.bean.UserRepo;
+import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.User;
 import com.goosvandenbekerom.util.HATEOAS;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import javax.inject.Inject;
@@ -51,6 +53,20 @@ public class UserResource extends JsonResource{
     public List<User> getFollowers(@PathParam("username") String username) {
         return HATEOAS.userList(repo.getFollowers(username), uri);
     }
+
+    @GET
+    @Path("{username}/kweets")
+    @Operation(summary = "Get all kweets of this user")
+    public List<Kweet> getKweets(
+            @PathParam("username") String username,
+            @Parameter(description = "offset to start from") @QueryParam("offset") @DefaultValue("0") int offset,
+            @Parameter(description = "maximum amount of kweets") @QueryParam("limit") @DefaultValue("50") int limit
+    ) {
+        if (offset < 0) offset = 0;
+        if (limit < 0) limit = 50;
+        return HATEOAS.kweetList(repo.getKweets(username, offset, limit), uri);
+    }
+
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
     @Operation(summary = "Register a new user")

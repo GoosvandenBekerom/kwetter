@@ -6,10 +6,12 @@ import com.goosvandenbekerom.Exception.UserAlreadyFollowedException;
 import com.goosvandenbekerom.Exception.UsernameExistsException;
 import com.goosvandenbekerom.Exception.WrongUsernameOrPasswordException;
 import com.goosvandenbekerom.config.JwtConfig;
+import com.goosvandenbekerom.model.Kweet;
 import com.goosvandenbekerom.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.ws.rs.BadRequestException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -53,6 +55,13 @@ public class UserRepo extends Repository<User, String> {
 
     public List<User> getFollowers(String username) {
         return getById(username).getFollowers();
+    }
+
+    @SuppressWarnings("unchecked") // stackoverflow question 115692
+    public List<Kweet> getKweets(String username, int offset, int limit) {
+        Query q = em.createNamedQuery("user.getKweets", Kweet.class).setFirstResult(offset).setMaxResults(limit);
+        q.setParameter("username", username);
+        return q.getResultList();
     }
 
     public void changePassword(String username, String password, String newPassword) {

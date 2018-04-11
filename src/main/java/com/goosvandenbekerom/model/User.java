@@ -9,12 +9,19 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@NamedQueries(
-        @NamedQuery(name = "user.getTimeline",
+@NamedQueries({
+        @NamedQuery(
+                name = "user.getTimeline",
                 query = "SELECT k FROM Kweet k, User u WHERE u.username = :username "+
                         "AND (k.owner.username in (SELECT f.username from u.following f) "+
-                        "OR k.owner.username = :username) ORDER BY k.created desc")
-)
+                        "OR k.owner.username = :username) ORDER BY k.created desc"
+        ),
+        @NamedQuery(
+                name = "user.getKweets",
+                query = "SELECT k FROM Kweet k, User u WHERE u.username = :username " +
+                        "AND k.owner.username = :username ORDER BY k.created desc"
+        )
+})
 public class User extends HateoasModel {
 
     @Id
