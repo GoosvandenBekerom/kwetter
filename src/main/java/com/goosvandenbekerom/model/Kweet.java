@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ public class Kweet extends HateoasModel {
     @JsonbTransient
     private List<User> likes;
 
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
     private Date created;
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
     private Date updated;
 
     @PrePersist

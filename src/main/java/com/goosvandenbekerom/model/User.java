@@ -1,5 +1,6 @@
 package com.goosvandenbekerom.model;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,7 +34,9 @@ public class User extends HateoasModel {
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Group> groups;
 
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
     private Date created;
+    @JsonbDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
     private Date updated;
     @PrePersist
     protected void onCreate() {
