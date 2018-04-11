@@ -14,12 +14,13 @@ import { KweetComponent } from './components/kweet/kweet.component';
 import { SearchComponent } from './components/search/search.component';
 import { LoginComponent } from './components/login/login.component';
 
+import { UserService} from "./services/user.service";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./guards/auth.guard";
 import { AuthInterceptor } from "./interceptors/AuthInterceptor";
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
-import {FlashService} from "./services/flash.service";
+import { FlashService } from "./services/flash.service";
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
@@ -56,7 +57,8 @@ const routes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     AuthGuard,
-    FlashService
+    FlashService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
