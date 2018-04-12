@@ -26,6 +26,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import {TimelineService} from "./services/timeline.service";
 import {UserResolver} from "./resolvers/UserResolver";
+import { EditUserCardComponent } from './components/edit-user-card/edit-user-card.component';
 
 const routes: Routes = [
   {
@@ -54,7 +55,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    TimelineComponent
+    TimelineComponent,
+    EditUserCardComponent
   ],
   imports: [
     BrowserModule,
