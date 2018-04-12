@@ -83,6 +83,7 @@ public class UserRepo extends Repository<User, String> {
             return JWT.create()
                     .withClaim("user", username)
                     .withExpiresAt(new Date(now.getTime() + dayInMs))
+                    .withIssuer("auth0")
                     .sign(algorithm);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
