@@ -25,4 +25,8 @@ export class HomeComponent implements OnInit {
       err => console.log(err.error.message)
     )
   }
+
+  updateTimeline(kweet: Kweet) {
+    this.kweets.unshift(kweet)
+  }
 }

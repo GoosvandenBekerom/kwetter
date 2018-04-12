@@ -3,7 +3,7 @@
     <app-user-card [user]="user"></app-user-card>
   </div>
   <div class="col-lg-6">
-    <app-kweet-form></app-kweet-form>
+    <app-kweet-form (onNewKweet)="updateTimeline($event)"></app-kweet-form>
     <app-timeline [kweets]="kweets"></app-timeline>
   </div>
   <div class="col-lg-3">

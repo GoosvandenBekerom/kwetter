@@ -27,6 +27,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import {TimelineService} from "./services/timeline.service";
 import {UserResolver} from "./resolvers/UserResolver";
 import { EditUserCardComponent } from './components/edit-user-card/edit-user-card.component';
+import {KweetService} from "./services/kweet.service";
 
 const routes: Routes = [
   {
@@ -69,10 +70,11 @@ const routes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     AuthGuard,
+    UserResolver,
     FlashService,
     UserService,
     TimelineService,
-    UserResolver
+    KweetService
   ],
   bootstrap: [AppComponent]
 })
