@@ -57,7 +57,7 @@ public class KweetRepo extends Repository<Kweet, Long> {
     }
 
     @SuppressWarnings("unchecked") // stackoverflow question 115692
-    public List<Kweet> getTimelineForUser(String username, int offset, int limit) {
+    public List<Kweet> getTimelineForLoggedInUser(String username, int offset, int limit) {
         Query q = em.createNamedQuery("user.getTimeline", Kweet.class).setFirstResult(offset).setMaxResults(limit);
         q.setParameter("username", username);
         return q.getResultList();

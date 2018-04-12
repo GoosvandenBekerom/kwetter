@@ -3,15 +3,15 @@
 <resources>
     <jdbc-connection-pool   allow-non-component-callers="true"
                             associate-with-thread="false"
-                            connection-creation-retry-attempts="0"
+                            connection-creation-retry-attempts="3"
                             connection-creation-retry-interval-in-seconds="10"
                             connection-leak-reclaim="false"
                             connection-leak-timeout-in-seconds="0"
                             connection-validation-method="auto-commit"
                             datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"
                             fail-all-connections="false"
-                            idle-timeout-in-seconds="300"
-                            is-connection-validation-required="false"
+                            idle-timeout-in-seconds="86400"
+                            is-connection-validation-required="true"
                             is-isolation-level-guaranteed="true"
                             lazy-connection-association="false"
                             lazy-connection-enlistment="false"
@@ -25,7 +25,7 @@
                             res-type="javax.sql.DataSource"
                             statement-timeout-in-seconds="-1"
                             steady-pool-size="8"
-                            validate-atmost-once-period-in-seconds="0"
+                            validate-atmost-once-period-in-seconds="60"
                             wrap-jdbc-objects="false">
         <property name="ServerName" value="goosvandenbekerom.nl"/>
         <property name="PortNumber" value="3306"/>

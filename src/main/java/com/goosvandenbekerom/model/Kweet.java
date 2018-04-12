@@ -26,7 +26,6 @@ public class Kweet extends HateoasModel {
     private List<Mention> mentions;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JsonbTransient
     private List<User> likes;
 
     @JsonbDateFormat("yyyy-MM-dd'T'HH:mm'Z'")

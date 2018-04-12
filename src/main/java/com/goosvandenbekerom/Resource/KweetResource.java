@@ -68,7 +68,7 @@ public class KweetResource extends JsonResource {
 
     @GET
     @Path("{id}/likes")
-    @Operation(summary = "Get a list of all users following this kweet")
+    @Operation(summary = "Get a list of all users that like this kweet")
     public List<User> getLikesById(@PathParam("id") long id) {
         return HATEOAS.userList(kweetRepo.getLikesById(id), uri);
     }
