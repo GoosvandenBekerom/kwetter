@@ -38,4 +38,11 @@ public class HashtagResource extends JsonResource {
     public List<Kweet> getKweets(@PathParam("tag") String tag) {
         return HATEOAS.kweetList(repo.getKweetsWithTag(tag), uri);
     }
+
+    @GET
+    @Path("top")
+    @Operation(summary = "Get top 10 all time most used hashtags")
+    public List<Hashtag> getKweets() {
+        return HATEOAS.hashtagList(repo.getTopRated(), uri);
+    }
 }

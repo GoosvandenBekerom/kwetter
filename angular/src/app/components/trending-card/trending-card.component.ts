@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Hashtag} from "../../models/Hashtag";
 
 @Component({
   selector: 'app-trending-card',
@@ -6,10 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./trending-card.component.css']
 })
 export class TrendingCardComponent implements OnInit {
+  @Input() hashtags: Hashtag[]
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

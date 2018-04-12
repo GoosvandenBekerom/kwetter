@@ -28,11 +28,13 @@ import {TimelineService} from "./services/timeline.service";
 import {UserResolver} from "./resolvers/UserResolver";
 import { EditUserCardComponent } from './components/edit-user-card/edit-user-card.component';
 import {KweetService} from "./services/kweet.service";
+import {HashtagService} from "./services/hashtag.service";
+import {HashtagTopResolver} from "./resolvers/HashtagTopResolver";
 
 const routes: Routes = [
   {
     path:'', component: HomeComponent, canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver, topHashtags: HashtagTopResolver }
   },
   {path:'login', component: LoginComponent },
   {path:'register', component: RegisterComponent },
@@ -71,10 +73,12 @@ const routes: Routes = [
     AuthService,
     AuthGuard,
     UserResolver,
+    HashtagTopResolver,
     FlashService,
     UserService,
     TimelineService,
-    KweetService
+    KweetService,
+    HashtagService
   ],
   bootstrap: [AppComponent]
 })

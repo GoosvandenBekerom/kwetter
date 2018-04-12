@@ -24,4 +24,8 @@ public class HashtagRepo extends Repository<Hashtag, String> {
     public List<Kweet> getKweetsWithTag(String tag){
         return getById(tag).getKweets();
     }
+
+    public List<Hashtag> getTopRated() {
+        return em.createNamedQuery("hashtag.getTop", Hashtag.class).setMaxResults(10).getResultList();
+    }
 }

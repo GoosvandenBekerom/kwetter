@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = "hashtag.getTimeline",
                 query = "SELECT k FROM Kweet k, Hashtag h WHERE h.value = :hashtag "+
-                        "AND h.value in (SELECT t.value FROM k.hashtags t) ORDER BY k.created desc")
-)
+                        "AND h.value in (SELECT t.value FROM k.hashtags t) ORDER BY k.created desc"),
+        @NamedQuery(name = "hashtag.getTop", query = "SELECT h FROM Hashtag h ORDER BY h.count desc")
+})
 public class Hashtag extends HateoasModel {
     @Id
     private String value;
@@ -50,9 +51,8 @@ public class Hashtag extends HateoasModel {
         this.count = count;
     }
 
-    public void increaseCount() {
-        count++;
-    }
+    public void increaseCount() { count++; }
+    public void decreaseCount() { count--; }
 
     public List<Kweet> getKweets() {
         if (kweets == null) {
@@ -79,4 +79,5 @@ public class Hashtag extends HateoasModel {
     public int hashCode() {
         return Objects.hash(getValue(), getCount(), kweets);
     }
+
 }

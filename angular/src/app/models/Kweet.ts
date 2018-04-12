@@ -1,4 +1,5 @@
 import {User} from "./User";
+import {Hashtag} from "./Hashtag";
 
 export class Kweet {
   constructor(
@@ -7,5 +8,6 @@ export class Kweet {
     public message: string,
     public likes: User[],
     public likeCount: number,
+    public hashtags: Hashtag[],
     public created: string) {}
 }

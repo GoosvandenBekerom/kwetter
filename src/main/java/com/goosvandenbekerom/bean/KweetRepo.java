@@ -33,6 +33,12 @@ public class KweetRepo extends Repository<Kweet, Long> {
         return super.save(kweet);
     }
 
+    @Override
+    public void delete(Kweet kweet) {
+        this.hashtagService.removeHashtagsOfKweet(kweet);
+        super.delete(kweet);
+    }
+
     public void toggleLike(long kweetId, String username) {
         Kweet kweet = getById(kweetId);
         User user = userRepo.getById(username);
