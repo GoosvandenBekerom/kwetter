@@ -59,6 +59,18 @@
     "styleExt": "css",
     "component": {
       "spec": false
+    },
+    "service": {
+      "spec": false
+    },
+    "directive": {
+      "spec": false
+    },
+    "guard": {
+      "spec": false
+    },
+    "pipe": {
+      "spec": false
     }
   }
 }
