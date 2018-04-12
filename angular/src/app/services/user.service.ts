@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {BASE_URL, basePostHeaders} from "../utils/constants";
+import {User} from "../models/User";
 
 @Injectable()
 export class UserService {
@@ -13,5 +14,10 @@ export class UserService {
 
   getKweets(username: string, offset: number = 0, limit: number = 50) {
     return this.http.get(`${BASE_URL}/user/${username}/kweets?offset=${offset}&limit=${limit}`)
+  }
+
+  updateFullname(user: User) {
+    const body = new HttpParams().set('fullName', user.fullName)
+    return this.http.put(`${BASE_URL}/user/settings/fullName`, body, { headers: basePostHeaders() })
   }
 }

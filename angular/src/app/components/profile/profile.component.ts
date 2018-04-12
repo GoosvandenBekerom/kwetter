@@ -15,7 +15,10 @@ import {User} from "../../models/User";
 })
 export class ProfileComponent implements OnInit {
   user: User
+  loggedInUser: User
+
   kweets: Kweet[]
+  editing: boolean
 
   constructor(
     private router: Router,
@@ -25,10 +28,20 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = this.route.snapshot.data.user
+    this.loggedInUser = this.route.snapshot.data.user
+    this.user = this.loggedInUser
+    this.editing = false
     this.userService.getKweets(this.user.username).subscribe(
         (data: Kweet[]) => this.kweets = data,
         (err: HttpErrorResponse) => console.log(err.error.message)
       )
+  }
+
+  onEditClick() {
+    this.editing = true
+  }
+
+  onEditDone(why: string) {
+      this.editing = false
   }
 }

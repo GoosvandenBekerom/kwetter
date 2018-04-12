@@ -1,3 +1,17 @@
-<p>
-  edit-user-card works!
-</p>
+<div class="card border-info">
+  <div class="card-header bg-info text-white">
+    Update account details
+  </div>
+  <div class="card-body text-info">
+    <form (submit)="onUpdateClick()">
+      <fieldset>
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input class="form-control border-info" placeholder="Full name" id="fullName" name="fullName" type="text" autofocus="" [(ngModel)]="user.fullName">
+        </div>
+        <button class="btn btn-info" type="button" (click)="onCancelEdit()">Cancel</button>
+        <button class="btn btn-info">Save</button>
+      </fieldset>
+    </form>
+  </div>
+</div>
