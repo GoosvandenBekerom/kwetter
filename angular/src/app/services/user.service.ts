@@ -20,4 +20,9 @@ export class UserService {
     const body = new HttpParams().set('fullName', user.fullName)
     return this.http.put(`${BASE_URL}/user/settings/fullName`, body, { headers: basePostHeaders() })
   }
+
+  updatePassword(oldPass: string, newPass: string) {
+    const body = new HttpParams().set('password', oldPass).set('newPassword', newPass)
+    return this.http.put(`${BASE_URL}/user/settings/password`, body, { headers: basePostHeaders() })
+  }
 }

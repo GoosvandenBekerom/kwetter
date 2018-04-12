@@ -3,9 +3,7 @@
     <app-user-card [user]="user"></app-user-card>
 
     <div *ngIf="user == loggedInUser">
-      <button [hidden]="editing" (click)="onEditClick()" class="btn btn-block btn-info">
-        Update account details
-      </button>
+      <button [hidden]="editing" (click)="onEditClick()" class="btn btn-block btn-info">Change account settings</button>
       <app-edit-user-card [hidden]="!editing" [user]="loggedInUser" (onDone)="onEditDone($event)"></app-edit-user-card>
     </div>
 
