@@ -13,6 +13,10 @@ export class KweetService {
     return this.http.post<Kweet>(`${BASE_URL}/kweet`, body, { headers: basePostHeaders() })
   }
 
+  likeKweet(kweet: Kweet) {
+    return this.http.post(`${BASE_URL}/kweet/${kweet.id}/like`, null)
+  }
+
   deleteKweet(kweet: Kweet) {
     return this.http.delete(`${BASE_URL}/kweet/${kweet.id}`, { headers: basePostHeaders() })
   }

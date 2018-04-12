@@ -3,6 +3,8 @@ import {Kweet} from "../../models/Kweet";
 import * as moment from 'moment';
 import {AuthService} from "../../services/auth.service";
 import {KweetService} from "../../services/kweet.service";
+import {User} from "../../models/User";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-kweet',
@@ -13,8 +15,8 @@ export class KweetComponent implements OnInit {
   @Input() isLast: boolean
   @Output() onDelete = new EventEmitter<Kweet>()
 
-  liked = false;
-  ownedByLoggedInUser: boolean
+  private loggedInUser: User
+  liked: boolean
 
   private _kweet: Kweet
   @Input('kweet') set kweet(kweet: Kweet) {
@@ -28,22 +30,43 @@ export class KweetComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private kweetService: KweetService
+    private kweetService: KweetService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.ownedByLoggedInUser = this.auth.getLoggedInUsername() == this.kweet.owner.username
+    this.loggedInUser = this.route.snapshot.data.user
+    this.liked = this.isLikedByLoggedInUser()
   }
 
-  public getCreatedRelative() {
+  getCreatedRelative() {
     return moment(this.kweet.created).fromNow()
   }
 
+  ownedByLoggedInUser() : boolean {
+    return this.loggedInUser.username == this.kweet.owner.username
+  }
+
   onLikeClick() {
-    this.liked = !this.liked;
+    if (this.liked) {
+      //todo unlike
+    } else {
+      this.kweetService.likeKweet(this.kweet).subscribe(() => {
+        this.liked = true
+        this.kweet.likes.push(this.loggedInUser)
+        this.kweet.likeCount++
+      })
+    }
   }
 
   onDeleteClick() {
     this.kweetService.deleteKweet(this.kweet).subscribe(() => this.onDelete.emit(this.kweet))
+  }
+
+  private isLikedByLoggedInUser() : boolean {
+    for (let i = 0; i < this.kweet.likes.length; i++) {
+      if (this.kweet.likes[i].username == this.loggedInUser.username) return true
+    }
+    return false
   }
 }
