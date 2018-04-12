@@ -12,4 +12,8 @@ export class KweetService {
     const body = new HttpParams().set('message', message)
     return this.http.post<Kweet>(`${BASE_URL}/kweet`, body, { headers: basePostHeaders() })
   }
+
+  deleteKweet(kweet: Kweet) {
+    return this.http.delete(`${BASE_URL}/kweet/${kweet.id}`, { headers: basePostHeaders() })
+  }
 }

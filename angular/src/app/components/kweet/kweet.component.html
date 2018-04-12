@@ -1,6 +1,9 @@
 <div class="row kweet-row">
   <div class="col-8">
-    <h5>@{{kweet.owner.username}}</h5>
+    <h5>
+      @{{kweet.owner.username}}
+      <small *ngIf="ownedByLoggedInUser">- <a class="text-danger" (click)="onDeleteClick()">delete kweet</a></small>
+    </h5>
     <p class="small mb-0 text-muted">Kweeted {{getCreatedRelative()}}</p>
 
   </div>

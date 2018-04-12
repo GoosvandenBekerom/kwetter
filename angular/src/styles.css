@@ -17,8 +17,13 @@ textarea {
   resize: none;
 }
 
-.kweet-row a {
+.kweet-row a.text-info {
   text-decoration: none;
+}
+
+.kweet-row a.text-danger:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 button, button:focus, input:focus, textarea:focus {

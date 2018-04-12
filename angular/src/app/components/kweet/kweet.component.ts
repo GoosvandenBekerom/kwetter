@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Kweet} from "../../models/Kweet";
 import * as moment from 'moment';
+import {AuthService} from "../../services/auth.service";
+import {KweetService} from "../../services/kweet.service";
 
 @Component({
   selector: 'app-kweet',
@@ -8,10 +10,13 @@ import * as moment from 'moment';
   styleUrls: ['./kweet.component.css']
 })
 export class KweetComponent implements OnInit {
-  private _kweet: Kweet
   @Input() isLast: boolean
-  public liked = true;
+  @Output() onDelete = new EventEmitter<Kweet>()
 
+  liked = false;
+  ownedByLoggedInUser: boolean
+
+  private _kweet: Kweet
   @Input('kweet') set kweet(kweet: Kweet) {
     kweet.message = kweet.message
       .replace(/#(\S+)/g,'<a href="#" class="text-info" title="Find more posts tagged with #$1">#$1</a>')
@@ -21,9 +26,14 @@ export class KweetComponent implements OnInit {
   }
   get kweet() {return this._kweet}
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private kweetService: KweetService
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ownedByLoggedInUser = this.auth.getLoggedInUsername() == this.kweet.owner.username
+  }
 
   public getCreatedRelative() {
     return moment(this.kweet.created).fromNow()
@@ -31,5 +41,9 @@ export class KweetComponent implements OnInit {
 
   onLikeClick() {
     this.liked = !this.liked;
+  }
+
+  onDeleteClick() {
+    this.kweetService.deleteKweet(this.kweet).subscribe(() => this.onDelete.emit(this.kweet))
   }
 }
