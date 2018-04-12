@@ -8,8 +8,6 @@ const AUTH_PREFIX = 'Bearer'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authHeader = `${AUTH_PREFIX} ${AuthService.getSession()}`;
     const authReq = req.clone({headers: req.headers.set(AUTH_HEADER_KEY, authHeader)});
