@@ -13,7 +13,7 @@ export class KweetService {
     return this.http.post<Kweet>(`${BASE_URL}/kweet`, body, { headers: basePostHeaders() })
   }
 
-  likeKweet(kweet: Kweet) {
+  toggleLike(kweet: Kweet) {
     return this.http.post(`${BASE_URL}/kweet/${kweet.id}/like`, null)
   }
 

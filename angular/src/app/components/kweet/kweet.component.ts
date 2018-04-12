@@ -48,19 +48,33 @@ export class KweetComponent implements OnInit {
   }
 
   onLikeClick() {
-    if (this.liked) {
-      //todo unlike
-    } else {
-      this.kweetService.likeKweet(this.kweet).subscribe(() => {
-        this.liked = true
-        this.kweet.likes.push(this.loggedInUser)
-        this.kweet.likeCount++
-      })
-    }
+    this.kweetService.toggleLike(this.kweet).subscribe(() => {
+      if (this.liked) this.removeLike()
+      else this.addLike()
+    })
   }
 
   onDeleteClick() {
     this.kweetService.deleteKweet(this.kweet).subscribe(() => this.onDelete.emit(this.kweet))
+  }
+
+  private addLike() {
+    this.liked = true
+    this.kweet.likes.push(this.loggedInUser)
+    this.kweet.likeCount++
+  }
+
+  private removeLike() {
+    this.liked = false
+    let index = -1
+    for (let i = 0; i < this.kweet.likes.length; i++) {
+      if (this.kweet.likes[i].username == this.loggedInUser.username) {
+        index = i
+        break;
+      }
+    }
+    this.kweet.likes.splice(index, 1)
+    this.kweet.likeCount--
   }
 
   private isLikedByLoggedInUser() : boolean {
