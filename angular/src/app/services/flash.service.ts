@@ -14,7 +14,7 @@ export class FlashService {
   }
 
   error(message: string, timeout: number = 5000) {
-    this.base(message, 'alert-danger', timeout)
+    this.base(message || "Excuse us, something went wrong internally :(", 'alert-danger', timeout)
   }
 
   info(message: string, timeout: number = 5000) {

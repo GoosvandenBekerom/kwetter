@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
           this.flash.success('Successfully logged in!')
           this.router.navigate(['/'])
         },
-        (err: HttpErrorResponse) => this.flash.error(err.error.message || "Excuse us, something went wrong internally :(")
+        (err: HttpErrorResponse) => this.flash.error(err.error.message)
       )
   }
 }
