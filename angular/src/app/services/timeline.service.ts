@@ -8,7 +8,7 @@ export class TimelineService {
 
   constructor(private http: HttpClient) { }
 
-  forUser(username: string) {
-    return this.http.get<Kweet[]>(`${BASE_URL}/timeline/user/${username}`)
+  forUser() {
+    return this.http.get<Kweet[]>(`${BASE_URL}/timeline`)
   }
 }

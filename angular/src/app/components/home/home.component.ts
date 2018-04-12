@@ -20,7 +20,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.route.snapshot.data.user
-    this.timeline.forUser(this.user.username).subscribe(
+
+    this.timeline.forUser().subscribe(
       timeline => this.kweets = timeline,
       err => console.log(err.error.message)
     )
