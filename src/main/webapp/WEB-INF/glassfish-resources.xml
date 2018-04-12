@@ -27,10 +27,10 @@
                             steady-pool-size="8"
                             validate-atmost-once-period-in-seconds="0"
                             wrap-jdbc-objects="false">
-        <property name="ServerName" value="localhost"/>
+        <property name="ServerName" value="goosvandenbekerom.nl"/>
         <property name="PortNumber" value="3306"/>
-        <property name="User" value="root"/>
-        <property name="Password" value="root"/>
+        <property name="User" value="kwetter"/>
+        <property name="Password" value="kwetter"/>
         <property name="DatabaseName" value="kwetter"/>
     </jdbc-connection-pool>
 
