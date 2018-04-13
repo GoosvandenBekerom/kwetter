@@ -30,19 +30,26 @@ import { EditUserCardComponent } from './components/edit-user-card/edit-user-car
 import {KweetService} from "./services/kweet.service";
 import {HashtagService} from "./services/hashtag.service";
 import {HashtagTopResolver} from "./resolvers/HashtagTopResolver";
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
   {
     path:'', component: HomeComponent, canActivate: [AuthGuard],
     resolve: { user: UserResolver, topHashtags: HashtagTopResolver }
   },
-  {path:'login', component: LoginComponent },
-  {path:'register', component: RegisterComponent },
+  { path:'login', component: LoginComponent },
+  { path:'register', component: RegisterComponent },
   {
     path:'profile', component: ProfileComponent,
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver }, canActivate: [AuthGuard]
   },
-  {path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] }
+  {
+    path:'profile/:username', component: ProfileComponent,
+    resolve: { user: UserResolver }, canActivate: [AuthGuard]
+  },
+  { path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] },
+  { path:'error', component: ErrorComponent },
+  { path: '**', component: ErrorComponent }
 ];
 
 @NgModule({
@@ -59,7 +66,8 @@ const routes: Routes = [
     RegisterComponent,
     ProfileComponent,
     TimelineComponent,
-    EditUserCardComponent
+    EditUserCardComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
