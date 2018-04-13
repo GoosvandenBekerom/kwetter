@@ -7,6 +7,10 @@ import {User} from "../models/User";
 export class UserService {
   constructor(private http: HttpClient) { }
 
+  getUser(username: string) {
+    return this.http.get(`${BASE_URL}/user/${username}`)
+  }
+
   register(username: string, password: string, fullName: string) {
     const body = new HttpParams().set("username", username).set("password", password).set("fullName", fullName)
     return this.http.post(`${BASE_URL}/user`, body, {headers: basePostHeaders(), observe: "response"})

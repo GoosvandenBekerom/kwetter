@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.user = this.route.snapshot.data.user
     this.topHashtags = this.route.snapshot.data.topHashtags
-    console.log(this.topHashtags)
 
     this.timeline.forUser().subscribe(
       timeline => this.kweets = timeline,
