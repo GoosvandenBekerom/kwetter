@@ -11,14 +11,21 @@ export class KweetFormComponent implements OnInit {
   @Output() onNewKweet = new EventEmitter<Kweet>()
 
   message: string
+  btnDisabled: boolean
 
   constructor(private kweetService: KweetService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.btnDisabled = false
+  }
 
   onKweetSubmit() {
     if (!this.message) return
-    this.kweetService.postKweet(this.message).subscribe(this.onNewKweet)
-    this.message = ''
+    this.btnDisabled = true
+    this.kweetService.postKweet(this.message).subscribe(kweet => {
+      this.btnDisabled = false
+      this.message = ''
+      this.onNewKweet.emit(kweet)
+    })
   }
 }
