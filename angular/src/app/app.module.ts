@@ -31,6 +31,7 @@ import {KweetService} from "./services/kweet.service";
 import {HashtagService} from "./services/hashtag.service";
 import {HashtagTopResolver} from "./resolvers/HashtagTopResolver";
 import { ErrorComponent } from './components/error/error.component';
+import { KweetListComponent } from './components/kweet-list/kweet-list.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   },
   {
     path:'profile/:username', component: ProfileComponent,
+    resolve: { user: UserResolver }, canActivate: [AuthGuard]
+  },
+  {
+    path:'hashtag/:hashtag', component: KweetListComponent,
     resolve: { user: UserResolver }, canActivate: [AuthGuard]
   },
   { path:'search/:query', component: SearchComponent, canActivate: [AuthGuard] },
@@ -67,7 +72,8 @@ const routes: Routes = [
     ProfileComponent,
     TimelineComponent,
     EditUserCardComponent,
-    ErrorComponent
+    ErrorComponent,
+    KweetListComponent
   ],
   imports: [
     BrowserModule,

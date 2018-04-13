@@ -40,7 +40,7 @@ export class KweetComponent implements OnInit {
       this._kweet.message = this._kweet.message
         .replace(
           `#${tag}`,
-          `<a href="#" class="text-info" title="Find more posts tagged with #${tag}">#${tag}</a>`
+          `<a href="/hashtag/${tag}" class="text-info" title="Find more posts tagged with #${tag}">#${tag}</a>`
         )
     }
 
