@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {BASE_URL, basePostHeaders} from "../utils/constants";
 import {User} from "../models/User";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class UserService {
@@ -28,5 +29,31 @@ export class UserService {
   updatePassword(oldPass: string, newPass: string) {
     const body = new HttpParams().set('password', oldPass).set('newPassword', newPass)
     return this.http.put(`${BASE_URL}/user/settings/password`, body, { headers: basePostHeaders() })
+  }
+
+  getFollowers(user: User) {
+    return this.http.get<User[]>(this.getUrlByRel(user, 'followers'))
+  }
+
+  getFollowing(user: User) {
+    return this.http.get<User[]>(this.getUrlByRel(user, 'following'))
+  }
+
+  isUserFollowedByUser(user: User, username: string) : Observable<boolean> {
+    return this.getFollowing(user)
+      .map(followers => followers.find(follower => follower.username == username) !== undefined)
+  }
+
+  followUser(username: string) {
+    return this.http.post(`${BASE_URL}/user/${username}/follow`, null)
+  }
+
+  unfollowUser(username: string) {
+    const body = new HttpParams().set("username", username)
+    return this.http.post(`${BASE_URL}/user/${username}/unfollow`, null)
+  }
+
+  private getUrlByRel(user: User, rel: string): string {
+    return user.links.find(link => link.rel == rel).href
   }
 }

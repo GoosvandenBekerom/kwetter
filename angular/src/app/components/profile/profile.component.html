@@ -2,10 +2,18 @@
   <div class="col-4">
     <app-user-card [user]="user"></app-user-card>
 
-    <div *ngIf="user == loggedInUser">
+    <div *ngIf="user == loggedInUser; then editContent else followContent"></div>
+
+    <ng-template #editContent>
       <button [hidden]="editing" (click)="onEditClick()" class="btn btn-block btn-info">Change account settings</button>
       <app-edit-user-card [hidden]="!editing" [user]="loggedInUser" (onDone)="onEditDone($event)"></app-edit-user-card>
-    </div>
+    </ng-template>
+
+    <ng-template #followContent>
+      <button *ngIf="user !== undefined" (click)="onFollowClick()" class="btn btn-block" [ngClass]="following ? 'btn-info' : 'btn-outline-info'">
+        <i class="far fa-user"></i> {{followBtnText}} @{{user.username}}
+      </button>
+    </ng-template>
 
   </div>
   <div class="col">
