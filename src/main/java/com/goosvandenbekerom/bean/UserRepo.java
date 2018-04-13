@@ -49,6 +49,14 @@ public class UserRepo extends Repository<User, String> {
         userToFollow.getFollowers().add(user);
     }
 
+    public void unfollowUser(String unfollower, String username) {
+        User user = getById(unfollower);
+        User userToUnfollow = getById(username);
+
+        user.getFollowing().remove(userToUnfollow);
+        userToUnfollow.getFollowers().remove(user);
+    }
+
     public List<User> getFollowing(String username) {
         return getById(username).getFollowing();
     }

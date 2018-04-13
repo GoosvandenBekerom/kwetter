@@ -95,6 +95,16 @@ public class UserResource extends JsonResource{
         return Response.ok(json).build();
     }
 
+    @POST
+    @Path("{username}/unfollow")
+    @Secured
+    @Operation(summary = "Unfollow user", security = @SecurityRequirement(name = "Authorisation token"))
+    public Response unfollowUser(@Context ContainerRequestContext context, @PathParam("username") String username) {
+        repo.unfollowUser(context.getProperty("user").toString(), username);
+        JsonObject json = Json.createObjectBuilder().add("message", "Successfully unfollowed user @" + username).build();
+        return Response.ok(json).build();
+    }
+
     @PUT
     @Path("settings/password")
     @Consumes(APPLICATION_FORM_URLENCODED)
