@@ -8,7 +8,15 @@ I have created this application for my Enterprise Engineering semester at Fontys
 
 ## Features
 
-- **Todo** Add list of features.
+- Register
+- Login (secured with JWT bearer tokens)
+- Follow/unfollow other users
+- Post Kweets
+- Like/unlike Kweets
+- A personalized timeline
+- Show/Update your personal profile
+- A dynamic list of all time trending hashtags
+- More to come...
 
 ## Authors
 
