@@ -20,10 +20,6 @@ export class KweetComponent implements OnInit {
 
   private _kweet: Kweet
   @Input('kweet') set kweet(kweet: Kweet) {
-    kweet.message = kweet.message
-      .replace(/#(\S+)/g,'<a href="#" class="text-info" title="Find more posts tagged with #$1">#$1</a>')
-      .replace(/@(\S+)/g,'<a href="#" class="text-info" title="Go to #$1\'s profile">@$1</a>')
-
     this._kweet = kweet
   }
   get kweet() {return this._kweet}
@@ -32,11 +28,31 @@ export class KweetComponent implements OnInit {
     private auth: AuthService,
     private kweetService: KweetService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loggedInUser = this.route.snapshot.data.user
     this.liked = this.isLikedByLoggedInUser()
+
+    // Hashtags
+    for (let i = 0; i < this._kweet.hashtags.length; i++) {
+      const tag = this._kweet.hashtags[i].value
+      this._kweet.message = this._kweet.message
+        .replace(
+          `#${tag}`,
+          `<a href="#" class="text-info" title="Find more posts tagged with #${tag}">#${tag}</a>`
+        )
+    }
+
+    // Mentions
+    for (let i = 0; i < this._kweet.mentions.length; i++) {
+      const mention = this._kweet.mentions[i].user.username
+      this._kweet.message = this._kweet.message
+        .replace(
+          `@${mention}`,
+          `<a href="/profile/${mention}" class="text-info" title="Go to @${mention}\'s profile">@${mention}</a>`
+        )
+    }
   }
 
   getCreatedRelative() {

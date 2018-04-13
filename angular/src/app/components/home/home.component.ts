@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
   updateTimeline(kweet: Kweet) {
     this.kweets.unshift(kweet)
     this.updateHashtagTop(kweet)
-    console.log(this.topHashtags)
   }
 
   updateHashtagTop(kweet: Kweet) {
