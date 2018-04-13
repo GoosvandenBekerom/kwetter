@@ -17,7 +17,6 @@ public class Mention extends HateoasModel {
     private long id;
 
     @ManyToOne
-    @JsonbTransient
     private User user;
 
     @ManyToOne

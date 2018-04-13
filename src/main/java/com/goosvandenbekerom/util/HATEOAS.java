@@ -42,7 +42,6 @@ public class HATEOAS {
     static public Mention mention(Mention mention, UriInfo uri) {
         URI baseUri = uri.getBaseUriBuilder().path(MentionResource.class).path(String.valueOf(mention.getId())).build();
         mention.addLink("self", baseUri);
-        mention.addLink("user", UriBuilder.fromUri(baseUri).path("user").build());
         mention.addLink("kweet", UriBuilder.fromUri(baseUri).path("kweet").build());
         return mention;
     }
