@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Kweet} from "../../models/Kweet";
 import * as moment from 'moment';
 import {AuthService} from "../../services/auth.service";
 import {KweetService} from "../../services/kweet.service";
 import {User} from "../../models/User";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-kweet',
@@ -27,7 +27,8 @@ export class KweetComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private kweetService: KweetService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -53,6 +54,15 @@ export class KweetComponent implements OnInit {
           `<a href="/profile/${mention}" class="text-info" title="Go to @${mention}\'s profile">@${mention}</a>`
         )
     }
+
+    document.onclick = (e) => {
+      const element = e.target as Element
+      if (element && element.tagName == 'A') {
+        const routerUrl = element.href.replace(/^(http|https):\/\//, '').replace(window.location.host, '')
+        this.router.navigate([routerUrl])
+        return false
+      }
+    };
   }
 
   getCreatedRelative() {
