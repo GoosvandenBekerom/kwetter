@@ -4,6 +4,7 @@ import {User} from "../../models/User";
 import {ActivatedRoute} from "@angular/router";
 import {TimelineService} from "../../services/timeline.service";
 import {Hashtag} from "../../models/Hashtag";
+import {KweetMessage, KweetSubjectService} from "../../services/kweet-subject.service";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private timeline: TimelineService
+    private timeline: TimelineService,
+    private kweetSubject: KweetSubjectService
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,28 @@ export class HomeComponent implements OnInit {
       timeline => this.kweets = timeline,
       err => console.log(err.error.message)
     )
+
+    this.initializeWebSocketConnection()
+  }
+
+  initializeWebSocketConnection() {
+    this.kweetSubject.connect(this.user.username)
+    this.kweetSubject.kweets.subscribe((data: KweetMessage) => {
+      console.log(data)
+      // todo: replace with this: this.kweets.unshift(data.kweet)
+    })
+  }
+
+  private onSocketOpen() {
+
+  }
+
+  private onSocketClose() {
+
+  }
+
+  private onSocketMessage() {
+
   }
 
   updateTimeline(kweet: Kweet) {

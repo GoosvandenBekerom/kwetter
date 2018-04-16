@@ -32,6 +32,8 @@ import {HashtagService} from "./services/hashtag.service";
 import {HashtagTopResolver} from "./resolvers/HashtagTopResolver";
 import { ErrorComponent } from './components/error/error.component';
 import { KweetListComponent } from './components/kweet-list/kweet-list.component';
+import {WebsocketService} from "./services/websocket.service";
+import {KweetSubjectService} from "./services/kweet-subject.service";
 
 const routes: Routes = [
   {
@@ -92,7 +94,9 @@ const routes: Routes = [
     UserService,
     TimelineService,
     KweetService,
-    HashtagService
+    HashtagService,
+    WebsocketService,
+    KweetSubjectService
   ],
   bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from "@angular/common/http"
 import "rxjs/add/operator/map";
 import * as jwt_decode from 'jwt-decode'
-import { BASE_URL, basePostHeaders } from "../utils/constants";
+import { BASE_URL_API, basePostHeaders } from "../utils/constants";
 import {User} from "../models/User";
 import {Observable} from 'rxjs/Observable';
 
@@ -14,7 +14,7 @@ export class AuthService {
 
   authenticate(username: string, password: string) {
     const body = new HttpParams().set("username", username).set("password", password)
-    return this.http.post(`${BASE_URL}/user/login`, body, {headers: basePostHeaders(), observe: "response"})
+    return this.http.post(`${BASE_URL_API}/user/login`, body, {headers: basePostHeaders(), observe: "response"})
       .map((data: any) => {
         AuthService.setSession(data.body.token)
         return data
@@ -26,7 +26,7 @@ export class AuthService {
     if (!token) return null
 
     const decoded = jwt_decode(token)
-    return this.http.get<User>(`${BASE_URL}/user/${decoded.user}`)
+    return this.http.get<User>(`${BASE_URL_API}/user/${decoded.user}`)
   }
 
   getLoggedInUsername() : string {
