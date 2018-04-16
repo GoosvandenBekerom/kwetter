@@ -56,7 +56,7 @@ export class KweetComponent implements OnInit {
     }
 
     document.onclick = (e) => {
-      const element = e.target as Element
+      const element = e.target as any
       if (element && element.tagName == 'A') {
         const routerUrl = element.href.replace(/^(http|https):\/\//, '').replace(window.location.host, '')
         this.router.navigate([routerUrl])
