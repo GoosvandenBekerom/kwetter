@@ -9,6 +9,7 @@ import com.goosvandenbekerom.service.HashtagService;
 import com.goosvandenbekerom.util.RegexHelpers;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.Query;
 import java.util.HashSet;
@@ -23,6 +24,8 @@ public class KweetRepo extends Repository<Kweet, Long> {
     private HashtagService hashtagService;
     @Inject
     private UserRepo userRepo;
+    @Inject
+    private Event<Kweet> kweetEvent;
 
     public KweetRepo() { super(Kweet.class); }
 
@@ -30,7 +33,9 @@ public class KweetRepo extends Repository<Kweet, Long> {
     @Profanity
     public Kweet save(Kweet kweet) {
         this.processKweet(kweet);
-        return super.save(kweet);
+        kweet = super.save(kweet);
+        kweetEvent.fire(kweet);
+        return kweet;
     }
 
     @Override
