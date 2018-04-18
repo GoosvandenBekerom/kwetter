@@ -4,7 +4,7 @@ import {User} from "../../models/User";
 import {ActivatedRoute} from "@angular/router";
 import {TimelineService} from "../../services/timeline.service";
 import {Hashtag} from "../../models/Hashtag";
-import {KweetMessage, KweetSubjectService} from "../../services/kweet-subject.service";
+import {KweetSubjectService} from "../../services/kweet-subject.service";
 
 @Component({
   selector: 'app-home',
@@ -36,22 +36,10 @@ export class HomeComponent implements OnInit {
 
   initializeWebSocketConnection() {
     this.kweetSubject.connect(this.user.username)
-    this.kweetSubject.kweets.subscribe((data: KweetMessage) => {
-      console.log(data)
-      // todo: replace with this: this.kweets.unshift(data.kweet)
+    this.kweetSubject.kweets.subscribe((kweet: Kweet) => {
+      console.log(kweet)
+      this.updateTimeline(kweet)
     })
-  }
-
-  private onSocketOpen() {
-
-  }
-
-  private onSocketClose() {
-
-  }
-
-  private onSocketMessage() {
-
   }
 
   updateTimeline(kweet: Kweet) {
